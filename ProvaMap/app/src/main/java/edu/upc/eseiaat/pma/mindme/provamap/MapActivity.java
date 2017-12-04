@@ -1,7 +1,9 @@
 package edu.upc.eseiaat.pma.mindme.provamap;
 
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -11,7 +13,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -70,8 +74,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in ESEIAAT, Terrassa, and move the camera.
-        LatLng eseiaat = new LatLng(41.562863, 2.023187);
-        mMap.addMarker(new MarkerOptions().position(eseiaat).title("Marker in ESEIAAT"));
+        final LatLng eseiaat = new LatLng(41.562863, 2.023187);
+        mMap.addMarker(new MarkerOptions()
+                .position(eseiaat)
+                //.title("Marker in ESEIAAT") //decidir si volem text o no
+                //.snippet("This is Univerity") //decidir si volem text o no
+                //TODO: canviar la icona a un punt
+                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow))
+        );
         mMap.moveCamera(CameraUpdateFactory.newLatLng(eseiaat));
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(MapActivity.this, eseiaat.toString(), Toast.LENGTH_SHORT).show();
+                // si true: no mostra el text del marcador, si false: mostra el text del marcador
+                return true;
+            }
+        });
     }
 }
