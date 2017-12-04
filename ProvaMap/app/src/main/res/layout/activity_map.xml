@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/parent"
     tools:context="edu.upc.eseiaat.pma.mindme.provamap.MapActivity">
 
     <ViewSwitcher
@@ -11,25 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_alignParentBottom="true">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
-
-            <Button
-                android:id="@+id/btn_map"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="button" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,17 +43,59 @@
                 app:srcCompat="@mipmap/ic_launcher" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
+
+            <Button
+                android:id="@+id/btn_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="addMarker"
+                android:text="button" />
+        </RelativeLayout>
+
     </ViewSwitcher>
 
     <Button
         android:id="@+id/btn_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp"
         android:background="#005"
         android:text="TO PIC"
         android:textColor="#fff"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_above="@+id/viewSwitcher"
+        android:layout_margin="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
+
+    <EditText
+        android:id="@+id/latitude"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="numberDecimal|numberSigned"
+        android:text="0" />
+
+    <EditText
+        android:id="@+id/longitude"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="140dp"
+        android:ems="10"
+        android:inputType="numberDecimal|numberSigned"
+        android:text="0" />
 
 </RelativeLayout>

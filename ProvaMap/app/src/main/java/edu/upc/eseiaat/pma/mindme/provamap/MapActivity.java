@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -25,6 +26,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     Button btnSwitch;
     Button btn_map;
     Button btn_pic;
+    EditText latitude;
+    EditText longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         btn_map = (Button) findViewById(R.id.btn_map);
         btn_pic = (Button) findViewById(R.id.btn_pic);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
+        latitude = (EditText) findViewById(R.id.latitude);
+        longitude = (EditText) findViewById(R.id.longitude);
 
         btnSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,13 +52,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 else {
                     btnSwitch.setText("TO MAP");
                 }
-            }
-        });
-
-        btn_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MapActivity.this, "Botó map funciona", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -73,23 +71,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in ESEIAAT, Terrassa, and move the camera.
-        final LatLng eseiaat = new LatLng(41.562863, 2.023187);
-        mMap.addMarker(new MarkerOptions()
-                .position(eseiaat)
-                //.title("Marker in ESEIAAT") //decidir si volem text o no
-                //.snippet("This is Univerity") //decidir si volem text o no
-                //TODO: canviar la icona a un punt
-                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow))
-        );
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(eseiaat));
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(MapActivity.this, eseiaat.toString(), Toast.LENGTH_SHORT).show();
-                // si true: no mostra el text del marcador, si false: mostra el text del marcador
+                Toast.makeText(MapActivity.this, marker.getPosition().toString(), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
+    }
+
+    public void addMarker (View v){
+
+        LatLng cordinates = new LatLng(Float.parseFloat(latitude.getText().toString()),
+                Float.parseFloat(longitude.getText().toString()));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(cordinates));
+        //TODO: canviar la icona a un punt
+        //.icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
     }
 }
