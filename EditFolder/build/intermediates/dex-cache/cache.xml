@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/Nuria/AndroidStudioProjects/EditFolderActivity/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/Nuria/AndroidStudioProjects/EditFolderActivity/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_7e6c2b90bd99feabac5ea6eab978654a4858c236/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Nuria/AndroidStudioProjects/EditFolderActivity/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="748d3de32903981d4d3835cacc5fcb7fdf77031b">
+        <dex dex="/Users/Nuria/AndroidStudioProjects/EditFolderActivity/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f7b270fdec48575364bd99e88e19c4902eeda06e/classes.dex" />
+    </item>
+
+</items>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">\" "</string>
+
+    <array name="llistacategories">
+        <item>Animals</item>
+        <item>Books</item>
+          <item>Clothes</item>
+        <item>Electronics</item>
+        <item>Food</item>
+        <item>Gifts</item>
+         <item>Music</item>
+        <item>Others</item>
+        <item>Places</item>
+        <item>Transports</item>
+    </array>
+</resources>
