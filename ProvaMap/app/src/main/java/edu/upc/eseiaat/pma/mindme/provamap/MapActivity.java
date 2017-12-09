@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -28,6 +29,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     Button btn_pic;
     EditText latitude;
     EditText longitude;
+    BitmapDescriptor dot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +86,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         LatLng cordinates = new LatLng(Float.parseFloat(latitude.getText().toString()),
                 Float.parseFloat(longitude.getText().toString()));
+        dot = BitmapDescriptorFactory.fromResource(R.drawable.ic_action_name);
 
         mMap.addMarker(new MarkerOptions()
-                .position(cordinates));
+                .position(cordinates)
+                .icon(dot)
+                );
         //TODO: canviar la icona a un punt
-        //.icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
     }
 }
