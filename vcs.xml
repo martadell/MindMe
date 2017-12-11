@@ -22,8 +22,24 @@
           <option name="url" value="https://github.com/martadell/MindMe.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/martadell/MultiQuiz" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/martadell/FakePhone.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/martadell/CountryList.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/martadell/TitleApp" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="C:\Users\Marta\Desktop\Android\" />
+    <option name="cloneParentDir" value="C:\Users\Marta\AndroidStudioProjects" />
   </component>
 </application>
