@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ProvaMap.iml" filepath="$PROJECT_DIR$/ProvaMap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MindMe.iml" filepath="$PROJECT_DIR$/MindMe.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
