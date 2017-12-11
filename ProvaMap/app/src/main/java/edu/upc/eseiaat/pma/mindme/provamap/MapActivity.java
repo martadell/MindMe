@@ -86,7 +86,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         LatLng cordinates = new LatLng(Float.parseFloat(latitude.getText().toString()),
                 Float.parseFloat(longitude.getText().toString()));
-        dot = BitmapDescriptorFactory.fromResource(R.drawable.ic_action_name);
+        dot = BitmapDescriptorFactory.fromResource(R.drawable.dot);
 
         mMap.addMarker(new MarkerOptions()
                 .position(cordinates)

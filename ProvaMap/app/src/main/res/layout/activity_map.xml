@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#005"
-        android:text="TO PIC"
+        android:text="TO MAP"
         android:textColor="#fff"
         android:textStyle="bold"
         android:layout_above="@+id/viewSwitcher"
