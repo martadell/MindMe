@@ -27,4 +27,26 @@
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/btn_camera" />
 
+    <TextView
+        android:id="@+id/txt_lat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:text="Latitude: "
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_long"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_lat"
+        android:layout_alignStart="@+id/txt_lat"
+        android:layout_below="@+id/txt_lat"
+        android:text="Longitude: "
+        android:textSize="20sp" />
+
 </RelativeLayout>
