@@ -1,9 +1,7 @@
 package edu.upc.eseiaat.pma.mindme.provamap;
 
-import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -86,13 +84,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         LatLng cordinates = new LatLng(Float.parseFloat(latitude.getText().toString()),
                 Float.parseFloat(longitude.getText().toString()));
-        dot = BitmapDescriptorFactory.fromResource(R.drawable.ic_action_name);
+        dot = BitmapDescriptorFactory.fromResource(R.drawable.dot);
 
         mMap.addMarker(new MarkerOptions()
                 .position(cordinates)
                 .icon(dot)
                 );
-        //TODO: canviar la icona a un punt
         mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
     }
 }
