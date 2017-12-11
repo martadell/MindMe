@@ -8,7 +8,7 @@
 
 
     <Spinne
-        android:id="@+id/llistacategories"
+        android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"

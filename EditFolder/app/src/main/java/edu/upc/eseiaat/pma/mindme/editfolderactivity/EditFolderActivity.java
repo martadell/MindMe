@@ -10,19 +10,13 @@ import java.util.ArrayList;
 
 public class EditFolderActivity extends AppCompatActivity {
 
-    //private ArrayList<> llistacat = new ArrayList<String>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_folder);
 
-        Spinner llistacategories = (Spinner) findViewById(R.id.llistacategories);
-        /*if (llistacat.isEmpty()){
-            llistacat.add(new Categories("altres", getResources().getDrawable(R.drawable.altres)));
-        }*/
-
-       String[] llistacat = getResources().getStringArray(R.array.llistacategories);
-        llistacategories.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, llistacat));
+        Spinner list = (Spinner) findViewById(R.id.list);
+        String[] listcat = {"A", "B", "C"};
+        list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listcat));
     }
 }
