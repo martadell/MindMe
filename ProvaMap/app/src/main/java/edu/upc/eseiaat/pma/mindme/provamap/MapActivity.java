@@ -92,7 +92,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .position(cordinates)
                 .icon(dot)
                 );
-        //TODO: canviar la icona a un punt
         mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
     }
 }
