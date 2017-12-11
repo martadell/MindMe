@@ -9,5 +9,13 @@ public class FolderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder);
+
+        /*
+
+        arraylist<Pictures> blabla = null;
+        adapter
+
+         */
+
     }
 }
