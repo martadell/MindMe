@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -17,14 +18,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,10 +29,12 @@ public class ProvaCameraActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST =10;
     private ImageView imageView;
+    private Uri pictureUri;
 
-    static final int REQUEST_LOCATION = 1;
+    static final int REQUEST_LOCATION = 99;
     LocationManager locationManager;
     TextView txt_lat, txt_long;
+    Location location;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -63,25 +62,33 @@ public class ProvaCameraActivity extends AppCompatActivity {
         else {
             Bundle state = savedInstanceState;
             txt_lat.setText(state.getString("latitude"));
-            txt_long.setText(state.getString("longitude")); }
+            txt_long.setText(state.getString("longitude"));
+        }
     }
+
 
     public void btn_camera(View view) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent,CAMERA_REQUEST);
 
+        File pictureDirectory = getPictureDirectory();
+        String pictureName = getPictureName();
+
+        File imageFile = new File(pictureDirectory, pictureName);
+        pictureUri = Uri.fromFile(imageFile);
+
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+        startActivityForResult(cameraIntent,CAMERA_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == CAMERA_REQUEST) {
-                Bitmap cameraImage = (Bitmap) data.getExtras().get("data");
-                imageView.setImageBitmap(cameraImage);
+        if (resultCode == RESULT_OK  && requestCode == CAMERA_REQUEST) {
 
-                getLocation();
-            }
+            //TODO: MOSTRAR LA IMATGE AL IMAGEVIEW (INTENT URI -> BITMAP???)
+
+            getLocation();
+
         }
     }
 
@@ -98,7 +105,8 @@ public class ProvaCameraActivity extends AppCompatActivity {
                                 REQUEST_LOCATION);
 
             } } else {
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             if (location != null){
                 double lat = location.getLatitude();
@@ -112,6 +120,20 @@ public class ProvaCameraActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private String getPictureName() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String timestamp = sdf.format(new Date());
+        return "MindMe_" + timestamp + ".jpg";
+    }
+
+    private File getPictureDirectory() {
+        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/MindMe");
+        if (!folder.exists()) {
+            folder.mkdir(); }
+
+        return folder;
     }
 }
 
