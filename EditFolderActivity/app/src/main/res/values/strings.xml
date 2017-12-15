@@ -1,6 +1,5 @@
 <resources>
 
-    <string name="app_name">" "</string>
     <string name="label_nom">Nom</string>
     <string name="label_categoria">Categoria</string>
 

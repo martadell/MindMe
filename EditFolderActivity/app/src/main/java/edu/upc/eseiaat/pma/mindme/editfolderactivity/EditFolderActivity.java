@@ -11,6 +11,8 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.TreeSet;
 
 public class EditFolderActivity extends AppCompatActivity {
@@ -31,21 +33,18 @@ public class EditFolderActivity extends AppCompatActivity {
         R.drawable.regals, R.drawable.roba, R.drawable.transport};
 
 
+        //ARREGLAR ORDRE SPINNER - ACTION BAR per posar la fletxa
+
         for (int i=0; i<noms_cat.length; i++){
             Drawable drawable = getResources().getDrawable(imgs[i], getTheme());
             llistacat.add(new Categories(noms_cat[i], drawable));
         }
-        /*
-        llistacat.add(new Categories(noms_cat[0], ));
-        llistacat.add(new Categories(noms_cat[1], getResources().getDrawable(R.drawable.animals)));
-        llistacat.add(new Categories(noms_cat[2], getResources().getDrawable(R.drawable.electronica)));
-        llistacat.add(new Categories(noms_cat[3], getResources().getDrawable(R.drawable.llibres)));
-        llistacat.add(new Categories(noms_cat[4], getResources().getDrawable(R.drawable.llocs)));
-        llistacat.add(new Categories(noms_cat[5], getResources().getDrawable(R.drawable.menjar)));
-        llistacat.add(new Categories(noms_cat[6], getResources().getDrawable(R.drawable.musica)));
-        llistacat.add(new Categories(noms_cat[7], getResources().getDrawable(R.drawable.regals)));
-        llistacat.add(new Categories(noms_cat[8], getResources().getDrawable(R.drawable.roba)));
-        llistacat.add(new Categories(noms_cat[9], getResources().getDrawable(R.drawable.transport)));*/
+
+        Collections.sort(llistacat, new Comparator<Categories>() {
+            public int compare(Categories obj1, Categories obj2) {
+                return obj1.getNom().compareTo(obj2.getNom());
+            }
+        });
 
         Spinner llistacategories = (Spinner) findViewById(R.id.llistacategories);
 
