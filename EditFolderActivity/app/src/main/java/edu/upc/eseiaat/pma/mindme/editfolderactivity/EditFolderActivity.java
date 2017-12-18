@@ -1,21 +1,21 @@
 package edu.upc.eseiaat.pma.mindme.editfolderactivity;
 
+import android.app.ActionBar;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.TreeSet;
 
 import static android.support.v7.appcompat.R.styleable.MenuItem;
 
@@ -59,26 +59,25 @@ public class EditFolderActivity extends AppCompatActivity {
 
         llistacategories.setAdapter(adapter);
 
-        //PERSONALITZEM L'ACTION BAR
+        //PERSONALITZEM L'ACTION BAR --> HAUREM DE DECLARAR EL BOTÓ ENRERE EN L'ACTIVITAT PARE FOLDERLISTACTIVITY
 
-        /*@Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            // Inflate the menu items for use in the action bar
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.menu, menu);
-            return super.onCreateOptionsMenu(menu);
-        }
-
-
-        onOptionsItemSelected()*/
 
     }
 
-    /*public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
+   @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.btn_before) {
+            Toast.makeText(this, "S'ha presionat el botó enrere", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
