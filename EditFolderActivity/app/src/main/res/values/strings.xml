@@ -16,6 +16,7 @@
         <item>Roba</item>
         <item>Transport</item>
     </array>
+    <string name="app_name"></string>
 
 
 </resources>

@@ -24,6 +24,7 @@ public class CategoriesAdapter extends ArrayAdapter<Categories> {
 
     ArrayList<Categories> datos = null;
 
+
     public CategoriesAdapter(Context context,ArrayList<Categories> datos) {
         super(context, R.layout.spinner_selected_item, datos);
         this.context = context;
@@ -47,14 +48,6 @@ public class CategoriesAdapter extends ArrayAdapter<Categories> {
 
         ImageView imagen = (ImageView) result.findViewById(R.id.icon_cat);
         imagen.setImageDrawable(cat.getImatge());
-
-        /*Categories categoria = getItem(position);
-
-        TextView title = (TextView) result.findViewById(R.id.cat);
-        title.setText(categoria.getNom());
-
-        ImageView imagen = (ImageView) result.findViewById(R.id.icon_cat);
-        imagen.setImageDrawable(categoria.getImatge());*/
 
         return result;
     }
