@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">MindMe</string>
+    <string name="google_maps_key">AIzaSyANM9fkpA_CQM8gF6T1m89so3wXh5BM81U</string>
 </resources>

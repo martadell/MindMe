@@ -9,7 +9,7 @@ import android.graphics.BitmapFactory;
  */
 
 public class Picture {
-    private Bitmap foto; // Això serà una URI!!!
+    private Bitmap foto; // TODO: Això serà una URI!!!
     private double lat;
     private double lng;
 
