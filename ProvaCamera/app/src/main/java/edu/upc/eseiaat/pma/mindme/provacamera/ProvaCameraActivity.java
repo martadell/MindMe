@@ -100,7 +100,7 @@ public class ProvaCameraActivity extends AppCompatActivity {
         }
     }
 
-    //Mètode per obtenir el bitmal (crida als mètodes següents)
+    //Mètode per obtenir el bitmap (crida als mètodes següents)
     private void getBitmap() {
         Bitmap bitmap = null;
         try {

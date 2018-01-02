@@ -9,15 +9,15 @@ import android.graphics.BitmapFactory;
  */
 
 public class Picture {
-    private Bitmap foto; // TODO: Això serà una URI!!!
+    private Bitmap foto;
     private double lat;
     private double lng;
 
-    public Picture(Resources res, int recurs, double lat, double lng) {
+    /*public Picture(Resources res, int recurs, double lat, double lng) {
         foto = BitmapFactory.decodeResource(res, recurs);
         this.lat = lat;
         this.lng = lng;
-    }
+    }*/
 
     public Picture (Bitmap foto, double lat, double lng){
         this.foto = foto;
