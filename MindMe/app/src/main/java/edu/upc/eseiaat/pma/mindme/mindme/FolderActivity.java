@@ -21,8 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -54,20 +52,18 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private double lon;
 
     private static final int CAMERA_REQUEST =10;
-    //private ImageView imageView;
     private Uri pictureUri;
 
     static final int REQUEST_LOCATION = 99;
     LocationManager locationManager;
-    TextView txt_lat, txt_long;
     Location location;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         Log.i("lifecycle", "onSaveInstanceState");
         super.onSaveInstanceState(outState);
-        outState.putString("latitude", txt_lat.getText().toString());
-        outState.putString("longitude", txt_long.getText().toString());
+        outState.putString("latitude", String.valueOf(lat));
+        outState.putString("longitude", String.valueOf(lon));
         outState.putString("pictureUri", pictureUri.toString());
     }
 
@@ -77,26 +73,16 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_folder);
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        //txt_lat = (TextView) findViewById(R.id.txt_lat);
-        //txt_long = (TextView) findViewById(R.id.txt_long);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
         llista_fotos = new ArrayList<>();
 
-        /*if(savedInstanceState == null) {
-            //txt_lat.setText("Latitude:");
-            //txt_long.setText("Longitude");
-            Log.i("Berta", "aixo funciona");
-        }
-        else {
+        if(savedInstanceState != null) {
             Bundle state = savedInstanceState;
-            //txt_lat.setText(state.getString("latitude"));
-            //txt_long.setText(state.getString("longitude"));
+            lat = Double.parseDouble(state.getString("latitude"));
+            lon = Double.parseDouble(state.getString("longitude"));
             pictureUri = Uri.parse(state.getString("pictureUri"));
             getBitmap();
-        }*/
-
-
-
+        }
 
         PicturesAdapter adapter = new PicturesAdapter(this, R.layout.activity_folder, llista_fotos);
 
@@ -154,6 +140,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 .position(cordinates)
                 .icon(dot)
         );
+
+        //TODO: AMB EL DEBUGGER EM SURT EL PROBLEMA PER AQUÍ, DIU QUE NO ES POT CREAR EN UN ELEMENT NUL(?)
         mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
     }
 
@@ -177,6 +165,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
             Log.i("URI path", pictureUri.getPath());
 
+
             getBitmap();
             getLocation();
             addPicture();
@@ -190,12 +179,13 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void getBitmap() {
         bitmap = null;
+
         try {
             bitmap = getThumbnail(pictureUri);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //imageView.setImageBitmap(bitmap);
+
     }
 
     public Bitmap getThumbnail(Uri uri) throws IOException {
@@ -229,7 +219,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void getLocation() {
 
-        //TODO: NO VA ??????
         if (ActivityCompat.checkSelfPermission(FolderActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.checkSelfPermission
@@ -246,12 +235,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             if (location != null){
                 lat = location.getLatitude();
                 lon = location.getLongitude();
-
-                //txt_lat.setText("Latitude: " + lat);
-                //txt_long.setText("Longitude: " + lon);
             } else {
-                //txt_lat.setText("Unable to find correct location.");
-                //txt_long.setText("Unable to find correct location. ");
                 Toast.makeText(this, "Unable to find location", Toast.LENGTH_SHORT).show();
             }
         }
