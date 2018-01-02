@@ -48,4 +48,19 @@
 
     </ViewSwitcher>
 
+    <ImageButton
+        android:id="@+id/btn_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:onClick="btn_camera"
+        app:srcCompat="@drawable/camera"
+        android:background="@layout/round_shape"
+        android:textColor="#f8fdf9"/>
+
 </RelativeLayout>

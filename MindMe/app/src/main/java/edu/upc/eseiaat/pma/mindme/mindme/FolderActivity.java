@@ -25,11 +25,8 @@ import java.util.ArrayList;
 
 public class FolderActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    //private PicturesAdapter picadapter;
-
     private GoogleMap mMap;
     private ViewSwitcher simpleViewSwitcher;
-    //private Button btnSwitch;
     private BitmapDescriptor dot;
     private ArrayList<Picture> llista_fotos;
 
@@ -38,10 +35,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder);
 
-        //btnSwitch = (Button) findViewById(R.id.btn_switch);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
 
-        // ArrayAdapter<Picture> adapter = new ArrayAdapter<Picture>(this, R.layout.activity_folder);
         llista_fotos = new ArrayList<>();
         llista_fotos.add(new Picture(getResources(), R.drawable.ic_action_name, 0.0, 0.0));
 
@@ -61,22 +56,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                         Toast.LENGTH_SHORT).show();
             }
         });
-
-        /*btnSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                simpleViewSwitcher.showNext();
-                String act_layout = btnSwitch.getText().toString();
-                if (act_layout.equals("TO MAP")){
-                    btnSwitch.setText("TO PIC");
-                }
-                else {
-                    btnSwitch.setText("TO MAP");
-                }
-            }
-        });
-        */
-
     }
 
     @Override
