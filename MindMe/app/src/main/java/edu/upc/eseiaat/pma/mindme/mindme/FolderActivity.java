@@ -132,19 +132,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         });
     }
 
-    private void addMarker(){
-        LatLng cordinates = new LatLng(lat,lon);
-        dot = BitmapDescriptorFactory.fromResource(R.drawable.dot);
-
-        mMap.addMarker(new MarkerOptions()
-                .position(cordinates)
-                .icon(dot)
-        );
-
-        //TODO: AMB EL DEBUGGER EM SURT EL PROBLEMA PER AQUÍ, DIU QUE NO ES POT CREAR EN UN ELEMENT NUL(?)
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
-    }
-
     public void btn_camera(View view) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -164,7 +151,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         if (resultCode == RESULT_OK  && requestCode == CAMERA_REQUEST) {
 
             Log.i("URI path", pictureUri.getPath());
-
 
             getBitmap();
             getLocation();
@@ -257,5 +243,17 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             folder.mkdir();
         }
         return folder;
+    }
+
+    private void addMarker(){
+        LatLng cordinates = new LatLng(lat,lon);
+        dot = BitmapDescriptorFactory.fromResource(R.drawable.dot);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(cordinates)
+                .icon(dot)
+        );
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
     }
 }
