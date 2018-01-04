@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -35,6 +36,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -50,6 +54,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private Bitmap bitmap;
     private double lat;
     private double lon;
+    private PicturesAdapter adapter;
+    private String pictureName;
 
     private static final int CAMERA_REQUEST =10;
     private Uri pictureUri;
@@ -58,13 +64,86 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     LocationManager locationManager;
     Location location;
 
-    @Override
+    private static final String FILENAME = "picture_list.txt";
+    private static final int MAX_BYTES = 8000;
+    File folder;
+
+    private void writePictureList(){
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            for (int i = 0; i<llista_fotos.size(); i++){
+                Picture it = llista_fotos.get(i);
+                String line = String.format("%f;%f\n", it.getLat(), it.getLng());
+                fos.write(line.getBytes());
+            }
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.e("berta", "writeItemList: FileNotFoundException");
+            Toast.makeText(this, R.string.cannot_write, Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Log.e("berta", "writeItemList: IEOException");
+            Toast.makeText(this, R.string.cannot_write, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /*public void loadImageFromStorage(String path) {
+        path = folder.getPath();
+        Bitmap b;
+        try {
+            for (int i = 0; i<folder.length(); i++){
+                File f = new File(path, "hola.jpg");
+                b = BitmapFactory.decodeStream(new FileInputStream(f));
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+    }*/
+
+    private void readPictureList(){
+        llista_fotos = new ArrayList<>();
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            byte[] buffer = new byte[MAX_BYTES];
+            int nread = fis.read(buffer);
+            if (nread>0) {
+                String content = new String(buffer, 0, nread);
+                String[] lines = content.split("\n");
+                for (int i = 0; i<folder.length(); i++) {
+                    File f = new File(folder.getPath(), "hola.jpg");
+                    Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+                    for (String line : lines) {
+                        String[] parts = line.split(";");
+                        llista_fotos.add(new Picture(
+                                b,
+                                Double.parseDouble(parts[0]),
+                                Double.parseDouble(parts[1])));
+                    }
+                }
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            Log.i("berta", "readItemList: FileNotFoundException");
+        } catch (IOException e) {
+            Log.i("berta", "readItemList: IOEException");
+            Toast.makeText(this, R.string.cannot_read, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /*@Override
     protected void onSaveInstanceState(Bundle outState) {
         Log.i("lifecycle", "onSaveInstanceState");
         super.onSaveInstanceState(outState);
         outState.putString("latitude", String.valueOf(lat));
         outState.putString("longitude", String.valueOf(lon));
         outState.putString("pictureUri", pictureUri.toString());
+    }*/
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        writePictureList();
     }
 
     @Override
@@ -74,23 +153,25 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
-        llista_fotos = new ArrayList<>();
+        //llista_fotos = new ArrayList<>();
 
-        if(savedInstanceState != null) {
+        /*if(savedInstanceState != null) {
             Bundle state = savedInstanceState;
             lat = Double.parseDouble(state.getString("latitude"));
             lon = Double.parseDouble(state.getString("longitude"));
             pictureUri = Uri.parse(state.getString("pictureUri"));
             getBitmap();
-        }
+        }*/
 
-        PicturesAdapter adapter = new PicturesAdapter(this, R.layout.activity_folder, llista_fotos);
-
+        adapter = new PicturesAdapter(this, R.layout.activity_folder, llista_fotos);
         GridView gridview = (GridView) findViewById(R.id.pic_grid);
-        gridview.setAdapter(adapter);
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+
+        readPictureList();
+
+        gridview.setAdapter(adapter);
+
         mapFragment.getMapAsync(this);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -136,7 +217,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         File pictureDirectory = getPictureDirectory();
-        String pictureName = getPictureName();
+        pictureName = getPictureName();
 
         File imageFile = new File(pictureDirectory, pictureName);
         pictureUri = Uri.fromFile(imageFile);
@@ -156,6 +237,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             getLocation();
             addPicture();
             addMarker();
+
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -237,7 +320,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
     //Assignar la ubicaciíó on es guardarà la imatge
     private File getPictureDirectory() {
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/MindMe");
+        folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/MindMe");
         //crea la carpeta si no existeix
         if (!folder.exists()) {
             folder.mkdir();
