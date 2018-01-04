@@ -101,26 +101,28 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     }*/
 
+    //TODO: si poses tot el readpicture en comentari (tambe en el onCreate quan es crida i fas que la linia 158 no sigui comentari, l'app funciona
     private void readPictureList(){
         llista_fotos = new ArrayList<>();
         try {
             FileInputStream fis = openFileInput(FILENAME);
+            FileInputStream fot = openFileInput(getPictureDirectory().toString());
             byte[] buffer = new byte[MAX_BYTES];
             int nread = fis.read(buffer);
             if (nread>0) {
                 String content = new String(buffer, 0, nread);
                 String[] lines = content.split("\n");
-                for (int i = 0; i<folder.length(); i++) {
-                    File f = new File(folder.getPath(), "hola.jpg");
-                    Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+                //for (int i = 0; i<folder.length(); i++) {
+                    //File f = new File(folder.getPath(), "hola.jpg");
+                    //Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
                     for (String line : lines) {
                         String[] parts = line.split(";");
                         llista_fotos.add(new Picture(
-                                b,
+                                BitmapFactory.decodeResource(FolderActivity.this.getResources(), R.drawable.animals), //TODO: trobar com agafar una fotot d'una folder del mobil
                                 Double.parseDouble(parts[0]),
                                 Double.parseDouble(parts[1])));
                     }
-                }
+                //}
             }
             fis.close();
         } catch (FileNotFoundException e) {
