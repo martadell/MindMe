@@ -1,5 +1,6 @@
 package edu.upc.eseiaat.pma.mindme.mindme;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -19,9 +20,13 @@ public class FolderListActivity extends AppCompatActivity {
         ListView l_c = (ListView) findViewById(R.id.list_folders);
 
         llista_carpetes = new ArrayList<Carpeta>();
-        ArrayList<Picture> hola = new ArrayList<Picture>();
-        llista_carpetes.add(new Carpeta("HOLA", getResources().getDrawable(R.drawable.ic_action_name, getTheme()),
-                hola));
+
+        //TODO fer icona afegir
+        //TODO afegir l'intent quan es clica el botó afegir carpeta
+        //AIXÒ PASSA QUAN ES FA CLICK AL BOtÓ D'AFEGIR!!!! --> ARREGLAR NÚRIA
+        /*Intent intent = new Intent (this, EditFolderActivity.class);
+        startActivityForResult(intent ,0);*/
+
         adapter = new FolderListActivityAdapter(this, R.layout.activity_folder_list, llista_carpetes);
         l_c.setAdapter(adapter);
     }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name="imatges">
+        <item>@drawable/altres</item>
+        <item>@drawable/animals</item>
+        <item>@drawable/electronica</item>
+        <item>@drawable/llibres</item>
+        <item>@drawable/llocs</item>
+        <item>@drawable/menjar</item>
+        <item>@drawable/musica</item>
+        <item>@drawable/regals</item>
+        <item>@drawable/roba</item>
+        <item>@drawable/transport</item>
+    </integer-array>
+
+</resources>

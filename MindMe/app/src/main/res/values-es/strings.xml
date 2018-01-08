@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MindMe</string>
+
+
+    <!-- EDITFOLDERACTIVITY -->
+    <string name="label_categoria">Categoria</string>
+    <string name="label_nom">Nombre</string>
+
+    <array name="llistacategories">
+
+        <item>Otros</item>
+        <item>Animales</item>
+        <item>Electrónica</item>
+        <item>Libros</item>
+        <item>Lugares</item>
+        <item>Comida</item>
+        <item>Música</item>
+        <item>Regalos</item>
+        <item>Ropa</item>
+        <item>Transporte</item>
+    </array>
+</resources>

@@ -3,4 +3,23 @@
     <string name="google_maps_key">AIzaSyDuKRXv4107ZSIKfMT7wlmqbaBWQTnQx34</string>
     <string name="cannot_write">String couldn\'t be written</string>
     <string name="cannot_read">List couldn\'t be read</string>
+
+    <!-- EDITFOLDERACTIVITY -->
+    <string name="label_categoria">Category</string>
+    <string name="label_nom">Name</string>
+
+    <array name="llistacategories">
+
+        <item>Others</item>
+        <item>Animals</item>
+        <item>Electronics</item>
+        <item>Books</item>
+        <item>Places</item>
+        <item>Food</item>
+        <item>Music</item>
+        <item>Gifts</item>
+        <item>Clothes</item>
+        <item>Transport</item>
+    </array>
+
 </resources>
