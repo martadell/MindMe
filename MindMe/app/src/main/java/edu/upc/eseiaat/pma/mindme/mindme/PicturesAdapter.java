@@ -1,6 +1,7 @@
 package edu.upc.eseiaat.pma.mindme.mindme;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,7 +41,7 @@ public class PicturesAdapter extends ArrayAdapter<Picture> {
         Picture p = getItem(position);
 
         ImageView image = (ImageView) result.findViewById(R.id.imagen);
-        image.setImageBitmap(p.getFoto());
+        image.setImageURI(Uri.parse(p.getFoto()));
         return result;
     }
 }

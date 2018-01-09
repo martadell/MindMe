@@ -57,7 +57,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private PicturesAdapter adapter;
     private String pictureName;
 
-    private static final int CAMERA_REQUEST =10;
+    private static final int CAMERA_REQUEST = 10;
     private Uri pictureUri;
 
     static final int REQUEST_LOCATION = 99;
@@ -73,7 +73,10 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_fotos.size(); i++){
                 Picture it = llista_fotos.get(i);
-                String line = String.format("%f;%f\n", it.getLat(), it.getLng());
+                String line = String.format("%s;%s;%s\n",
+                        it.getFoto(),
+                        Double.toString(it.getLat()),
+                        Double.toString(it.getLng()));
                 fos.write(line.getBytes());
             }
             fos.close();
@@ -86,43 +89,22 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
-    /*public void loadImageFromStorage(String path) {
-        path = folder.getPath();
-        Bitmap b;
-        try {
-            for (int i = 0; i<folder.length(); i++){
-                File f = new File(path, "hola.jpg");
-                b = BitmapFactory.decodeStream(new FileInputStream(f));
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-    }*/
-
-    //TODO: si poses tot el readpicture en comentari (tambe en el onCreate quan es crida i fas que la linia 158 no sigui comentari, l'app funciona
     private void readPictureList(){
         llista_fotos = new ArrayList<>();
         try {
             FileInputStream fis = openFileInput(FILENAME);
-            FileInputStream fot = openFileInput(getPictureDirectory().toString());
             byte[] buffer = new byte[MAX_BYTES];
             int nread = fis.read(buffer);
             if (nread>0) {
                 String content = new String(buffer, 0, nread);
                 String[] lines = content.split("\n");
-                //for (int i = 0; i<folder.length(); i++) {
-                    //File f = new File(folder.getPath(), "hola.jpg");
-                    //Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-                    for (String line : lines) {
+                for (String line : lines) {
                         String[] parts = line.split(";");
                         llista_fotos.add(new Picture(
-                                BitmapFactory.decodeResource(FolderActivity.this.getResources(), R.drawable.animals), //TODO: trobar com agafar una fotot d'una folder del mobil
-                                Double.parseDouble(parts[0]),
-                                Double.parseDouble(parts[1])));
-                    }
-                //}
+                                parts[0],
+                                Double.parseDouble(parts[1]),
+                                Double.parseDouble(parts[2])));
+                }
             }
             fis.close();
         } catch (FileNotFoundException e) {
@@ -155,6 +137,10 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
+        adapter = new PicturesAdapter(this, R.layout.activity_folder, llista_fotos);
+        GridView gridview = (GridView) findViewById(R.id.pic_grid);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
         //llista_fotos = new ArrayList<>();
 
         /*if(savedInstanceState != null) {
@@ -164,11 +150,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             pictureUri = Uri.parse(state.getString("pictureUri"));
             getBitmap();
         }*/
-
-        adapter = new PicturesAdapter(this, R.layout.activity_folder, llista_fotos);
-        GridView gridview = (GridView) findViewById(R.id.pic_grid);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
 
         readPictureList();
 
@@ -235,7 +216,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
             Log.i("URI path", pictureUri.getPath());
 
-            getBitmap();
+            //getBitmap();
             getLocation();
             addPicture();
             addMarker();
@@ -245,7 +226,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void addPicture() {
-        llista_fotos.add(new Picture(bitmap,lat,lon));
+        llista_fotos.add(new Picture(pictureUri.toString(),lat,lon));
     }
 
     private void getBitmap() {
