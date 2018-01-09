@@ -1,6 +1,10 @@
 package edu.upc.eseiaat.pma.mindme.mindme;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,8 +49,16 @@ public class FolderListActivity extends AppCompatActivity {
         switch (requestCode) {
             case 0:
                 if (resultCode == AppCompatActivity.RESULT_OK) {
+
                     String nom = afegir.getStringExtra("nom carpeta");
-                    llista_carpetes.add(new Carpeta(nom, getResources().getDrawable(R.drawable.altres, getTheme()), new ArrayList<Picture>()));
+
+                    Bundle bundle = afegir.getExtras();
+                    byte[] b = bundle.getByteArray("icona");
+
+                    Bitmap bmp = BitmapFactory.decodeByteArray(b, 0, b.length);
+                    Drawable d = new BitmapDrawable(getResources(), bmp);
+
+                    llista_carpetes.add(new Carpeta(nom, d, new ArrayList<Picture>()));
                     adapter.notifyDataSetChanged();
                 }
         }

@@ -79,10 +79,10 @@ public class EditFolderActivity extends AppCompatActivity {
 
         String n = getResources().getResourceName(R.drawable.altres);
         //Drawable d = Drawable.createFromPath(n);
-        Drawable d = getResources().getDrawable(R.drawable.altres);
+       /* Drawable d = getResources().getDrawable(R.drawable.altres);
         Drawable dr = get
        editText.setText(d.toString());
-        im.setImageDrawable(dr);
+        im.setImageDrawable(dr);*/
     }
 
    @Override

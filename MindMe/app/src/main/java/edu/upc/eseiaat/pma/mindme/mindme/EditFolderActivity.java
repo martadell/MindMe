@@ -78,12 +78,33 @@ public class EditFolderActivity extends AppCompatActivity {
 
         llistacategories.setAdapter(adapter);
 
+        nom_carpeta = (EditText) findViewById(R.id.edit_nom);
+
+        llistacategories.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent,
+                                               android.view.View v, int position, long id) {
+                        p = position;
+                    }
+
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
         //PERSONALITZEM L'ACTION BAR --> HAUREM DE DECLARAR EL BOTÓ ENRERE EN L'ACTIVITAT PARE FOLDERLISTACTIVITY
 
-        nom_carpeta = (EditText) findViewById(R.id.edit_nom);
+       /* llistacategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View item, int pos, long l) {
+                p = pos;
+            }
+        });*/
 
     }
 
+
+    //ACTION BAR
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -100,25 +121,20 @@ public class EditFolderActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onItemSelected(AdapterView<?> adapter, View view, int position,
-                               long id) {
-        // Aquí se codifica la lógica que se ejecutará al seleccionar un elemento del Spinner.
-        p = position;
-    }
-
     public void ok (View view){
 
         String nc = nom_carpeta.getText().toString();
         Intent afegeix = new Intent();
 
         //TODO arreglar passar un drawable per un intent a través d'un bitmap
-        /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.altres); //AQUI TIENE QUE IR UN INT POSICION DEL DRAWABLE
+
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), imgs[p]); //AQUI TIENE QUE IR UN INT POSICION DEL DRAWABLE
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();*/
+        byte[] byteArray = stream.toByteArray();
 
         afegeix.putExtra("nom carpeta", nc);
-        //afegeix.putExtra("icona", byteArray);
+        afegeix.putExtra("icona", byteArray);
         setResult(RESULT_OK, afegeix);
         finish();
     }

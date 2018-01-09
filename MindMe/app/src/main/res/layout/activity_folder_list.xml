@@ -18,14 +18,13 @@
         android:id="@+id/btn_wrong"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
         android:background="@drawable/requadre"
         android:onClick="btn_afegir"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/afegir"
-        tools:layout_editor_absoluteX="308dp"
-        tools:layout_editor_absoluteY="435dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/list_folders"
+        app:layout_constraintRight_toRightOf="@+id/list_folders"
+        app:srcCompat="@drawable/afegir" />
 
 </android.support.constraint.ConstraintLayout>
