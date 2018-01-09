@@ -43,12 +43,13 @@ public class EditFolderActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_folder);
 
-        ImageButton btn_ok = (ImageButton) findViewById(R.id.btn_ok);
-
         Intent intent = getIntent();
+
+        ImageButton btn_ok = (ImageButton) findViewById(R.id.btn_ok);
 
         //OMPLIM LA LLISTA
 
@@ -81,13 +82,6 @@ public class EditFolderActivity extends AppCompatActivity {
 
         nom_carpeta = (EditText) findViewById(R.id.edit_nom);
 
-        btn_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                afegirCarpeta(view);
-            }
-        });
-
     }
 
     @Override
@@ -112,7 +106,8 @@ public class EditFolderActivity extends AppCompatActivity {
         p = position;
     }
 
-    public void afegirCarpeta (View view){
+    public void ok (View view){
+
         String nc = nom_carpeta.getText().toString();
         Intent afegeix = new Intent();
 

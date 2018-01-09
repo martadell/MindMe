@@ -70,6 +70,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/btn_wrong"
         android:background="@drawable/requadre"
+        android:onClick="ok"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ok" />
 

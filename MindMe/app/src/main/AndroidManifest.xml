@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".FolderActivity" />
-        <activity android:name=".EditFolderActivity"></activity>
+        <activity android:name=".EditFolderActivity" />
     </application>
 
 </manifest>

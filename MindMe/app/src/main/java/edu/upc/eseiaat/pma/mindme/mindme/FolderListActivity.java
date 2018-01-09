@@ -1,8 +1,11 @@
 package edu.upc.eseiaat.pma.mindme.mindme;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -29,5 +32,23 @@ public class FolderListActivity extends AppCompatActivity {
 
         adapter = new FolderListActivityAdapter(this, R.layout.activity_folder_list, llista_carpetes);
         l_c.setAdapter(adapter);
+
+    }
+
+    public void btn_afegir (View view){
+        Intent intent = new Intent(this, EditFolderActivity.class);
+        startActivityForResult(intent ,0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent afegir) {
+        switch (requestCode) {
+            case 0:
+                if (resultCode == AppCompatActivity.RESULT_OK) {
+                    String nom = afegir.getStringExtra("nom carpeta");
+                    llista_carpetes.add(new Carpeta(nom, getResources().getDrawable(R.drawable.altres, getTheme()), new ArrayList<Picture>()));
+                    adapter.notifyDataSetChanged();
+                }
+        }
     }
 }
