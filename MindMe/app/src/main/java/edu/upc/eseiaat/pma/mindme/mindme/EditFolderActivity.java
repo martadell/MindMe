@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -59,7 +60,7 @@ public class EditFolderActivity extends AppCompatActivity {
                 R.drawable.regals, R.drawable.roba, R.drawable.transport};
 
 
-        for (int i=0; i<noms_cat.length; i++){
+        for (int i = 0; i < noms_cat.length; i++) {
             Drawable drawable = getResources().getDrawable(imgs[i], getTheme());
             llistacat.add(new Categories(noms_cat[i], drawable));
         }
@@ -80,6 +81,9 @@ public class EditFolderActivity extends AppCompatActivity {
 
         nom_carpeta = (EditText) findViewById(R.id.edit_nom);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         llistacategories.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> parent,
@@ -92,41 +96,24 @@ public class EditFolderActivity extends AppCompatActivity {
                     }
                 });
 
-        //PERSONALITZEM L'ACTION BAR --> HAUREM DE DECLARAR EL BOTÓ ENRERE EN L'ACTIVITAT PARE FOLDERLISTACTIVITY
-
-       /* llistacategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View item, int pos, long l) {
-                p = pos;
-            }
-        });*/
-
-    }
-
-
-    //ACTION BAR
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.btn_before) {
-            Toast.makeText(this, "S'ha presionat el botó enrere", Toast.LENGTH_LONG).show();
-            return true;
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public void ok (View view){
 
         String nc = nom_carpeta.getText().toString();
         Intent afegeix = new Intent();
-
-        //TODO arreglar passar un drawable per un intent a través d'un bitmap
 
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), imgs[p]); //AQUI TIENE QUE IR UN INT POSICION DEL DRAWABLE
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

@@ -8,13 +8,21 @@
         android:id="@+id/nom_carpeta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/icona"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/icona"
         android:layout_toRightOf="@+id/icona"
+        android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="26dp" />
 
     <ImageView
         android:id="@+id/icona"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="false"
+        />
 
 </RelativeLayout>
