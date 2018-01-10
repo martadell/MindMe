@@ -73,7 +73,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_fotos.size(); i++){
                 Picture it = llista_fotos.get(i);
-                String line = String.format("%s;%s;%s\n",
+                String line = String.format("%s;%s;%s\n", // "%s;%f;%f\n"
                         it.getFoto(),
                         Double.toString(it.getLat()),
                         Double.toString(it.getLng()));
@@ -135,6 +135,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder);
 
+        readPictureList();
+
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
         adapter = new PicturesAdapter(this, R.layout.activity_folder, llista_fotos);
@@ -151,7 +153,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             getBitmap();
         }*/
 
-        readPictureList();
 
         gridview.setAdapter(adapter);
 
@@ -216,7 +217,12 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
             Log.i("URI path", pictureUri.getPath());
 
-            //getBitmap();
+            // getBitmap();
+
+            // Gravar nosaltres el bitmap (si ho fa la app de la càmera dóna un android.os.FileUriExposedException
+            // MediaStore.Images.Media.insertImage(getContentResolver(), bm,
+            //   barcodeNumber + ".jpg Card Image", barcodeNumber + ".jpg Card Image");
+
             getLocation();
             addPicture();
             addMarker();
