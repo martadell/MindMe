@@ -73,10 +73,10 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_fotos.size(); i++){
                 Picture it = llista_fotos.get(i);
-                String line = String.format("%s;%s;%s\n", // "%s;%f;%f\n"
+                String line = String.format("%s;%f;%f\n",
                         it.getFoto(),
-                        Double.toString(it.getLat()),
-                        Double.toString(it.getLng()));
+                        it.getLat(),
+                        it.getLng());
                 fos.write(line.getBytes());
             }
             fos.close();
@@ -206,7 +206,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         File imageFile = new File(pictureDirectory, pictureName);
         pictureUri = Uri.fromFile(imageFile);
 
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+        //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
         startActivityForResult(cameraIntent,CAMERA_REQUEST);
     }
 
@@ -217,11 +217,11 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
             Log.i("URI path", pictureUri.getPath());
 
-            // getBitmap();
+            getBitmap();
 
             // Gravar nosaltres el bitmap (si ho fa la app de la càmera dóna un android.os.FileUriExposedException
-            // MediaStore.Images.Media.insertImage(getContentResolver(), bm,
-            //   barcodeNumber + ".jpg Card Image", barcodeNumber + ".jpg Card Image");
+            MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,
+                    pictureName + ".jpg Card Image", pictureName + ".jpg Card Image");
 
             getLocation();
             addPicture();
