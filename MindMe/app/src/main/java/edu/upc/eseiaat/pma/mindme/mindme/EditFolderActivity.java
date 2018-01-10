@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +34,6 @@ import static android.support.v7.appcompat.R.styleable.MenuItem;
 
 public class EditFolderActivity extends AppCompatActivity {
 
-    //TODO s'haurà de fer algun tipus de distinció depenent de si vens des del botó afegir o d'editar (editar que et mostri ja les dades i modificar-les si alguna canvia, afegir buit)
     private ArrayList<Categories> llistacat = new ArrayList<Categories>();
     private CategoriesAdapter adapter;
     private String[] noms_cat;
@@ -41,6 +41,7 @@ public class EditFolderActivity extends AppCompatActivity {
     private Menu menu;
     private int p;
     private EditText nom_carpeta;
+    private int posicio_carpeta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +49,21 @@ public class EditFolderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_folder);
 
+        //AFEGIR FLETXA ENRERE ACTIONBAR
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //RECONEIXER ELEMENTS PANTALLA
+        nom_carpeta = (EditText) findViewById(R.id.edit_nom);
+
+        //REBRE INTENT
         Intent intent = getIntent();
 
-        ImageButton btn_ok = (ImageButton) findViewById(R.id.btn_ok);
+        String nom = intent.getStringExtra("nom carpeta");
+        int codi_ruta = intent.getIntExtra("id drawable", 0);
+        posicio_carpeta = intent.getIntExtra("posicio carpeta", -1);
 
-        //OMPLIM LA LLISTA
+        //OMPLIM LA LLISTA DE CATEGORIES
 
         noms_cat = getResources().getStringArray(R.array.llistacategories);
         imgs = new int[]{R.drawable.altres, R.drawable.animals, R.drawable.electronica,
@@ -65,11 +76,11 @@ public class EditFolderActivity extends AppCompatActivity {
             llistacat.add(new Categories(noms_cat[i], drawable));
         }
 
-        Collections.sort(llistacat, new Comparator<Categories>() {
+        /*Collections.sort(llistacat, new Comparator<Categories>() {
             public int compare(Categories obj1, Categories obj2) {
                 return obj1.getNom().compareTo(obj2.getNom());
             }
-        });
+        });*/
 
         //CREEM L'ADAPTADOR
 
@@ -78,11 +89,6 @@ public class EditFolderActivity extends AppCompatActivity {
         adapter = new CategoriesAdapter(this, llistacat);
 
         llistacategories.setAdapter(adapter);
-
-        nom_carpeta = (EditText) findViewById(R.id.edit_nom);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         llistacategories.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
@@ -95,6 +101,17 @@ public class EditFolderActivity extends AppCompatActivity {
 
                     }
                 });
+
+        //APLIQUEM INTENT I AGAFEM INFORMACIÓ
+
+
+        nom_carpeta.setText(nom);
+
+         for (int i=0; i<llistacat.size(); i++){
+             if (imgs[i] == codi_ruta){
+                 llistacategories.setSelection(i);
+             }
+         }
 
     }
 
@@ -115,14 +132,21 @@ public class EditFolderActivity extends AppCompatActivity {
         String nc = nom_carpeta.getText().toString();
         Intent afegeix = new Intent();
 
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), imgs[p]); //AQUI TIENE QUE IR UN INT POSICION DEL DRAWABLE
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), imgs[p]);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
 
         afegeix.putExtra("nom carpeta", nc);
         afegeix.putExtra("icona", byteArray);
+        afegeix.putExtra("posicio carpeta", posicio_carpeta);
+        afegeix.putExtra("ruta drawable", imgs[p]);
         setResult(RESULT_OK, afegeix);
+        finish();
+    }
+
+    public void cancel (View view){
+
         finish();
     }
 

@@ -59,6 +59,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="@drawable/requadre"
+        android:onClick="cancel"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/wrong" />
 

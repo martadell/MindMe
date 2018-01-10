@@ -10,11 +10,13 @@ public class Carpeta {
     private String nom_carpeta;
     private Drawable icona;
     private ArrayList<Picture> llista_fotos;
+    private int ruta_drawable;
 
-    public Carpeta (String nom_carpeta, Drawable icona, ArrayList<Picture> llista_fotos){
+    public Carpeta (String nom_carpeta, Drawable icona, int ruta_drawable, ArrayList<Picture> llista_fotos){
         this.nom_carpeta = nom_carpeta;
         this.icona = icona;
         this.llista_fotos = llista_fotos;
+        this.ruta_drawable = ruta_drawable;
     }
 
     public void afegirFoto (Picture foto){
@@ -35,6 +37,14 @@ public class Carpeta {
 
     public Drawable getIcona() {
         return icona;
+    }
+
+    public int getRuta_drawable (){
+        return ruta_drawable;
+    }
+
+    public void setRuta_drawable (int ruta_drawable){
+        this.ruta_drawable = ruta_drawable;
     }
 
     public void setIcona(Drawable icona) {

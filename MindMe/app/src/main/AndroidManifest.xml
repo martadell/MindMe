@@ -22,15 +22,16 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".FolderActivity">
+        <activity android:name=".FolderListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FolderListActivity" />
+        <activity android:name=".FolderActivity" />
         <activity android:name=".EditFolderActivity" />
+        <activity android:name=".Proba"></activity>
     </application>
 
 </manifest>

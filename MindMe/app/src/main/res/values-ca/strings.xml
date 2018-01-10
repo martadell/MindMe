@@ -5,6 +5,7 @@
     <!-- EDITFOLDERACTIVITY -->
     <string name="label_nom">Nom</string>
     <string name="label_categoria">Categoria</string>
+    <string name="action_search">Cerca...</string>
 
 
     <array name="llistacategories">
@@ -20,4 +21,6 @@
         <item>Roba</item>
         <item>Transport</item>
     </array>
+    <string name="edit">Edita</string>
+    <string name="delete">Elimina</string>
 </resources>

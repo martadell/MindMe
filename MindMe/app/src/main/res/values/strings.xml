@@ -7,6 +7,9 @@
     <!-- EDITFOLDERACTIVITY -->
     <string name="label_categoria">Category</string>
     <string name="label_nom">Name</string>
+    <string name="action_search">Search...</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 
     <array name="llistacategories">
 
