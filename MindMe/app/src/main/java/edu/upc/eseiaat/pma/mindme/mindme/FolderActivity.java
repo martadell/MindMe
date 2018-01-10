@@ -73,7 +73,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_fotos.size(); i++){
                 Picture it = llista_fotos.get(i);
-                String line = String.format("%s;%f;%f\n",
+                String line = String.format("%s;%s;%s\n",
                         it.getFoto(),
                         it.getLat(),
                         it.getLng());
@@ -102,8 +102,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                         String[] parts = line.split(";");
                         llista_fotos.add(new Picture(
                                 parts[0],
-                                Double.parseDouble(parts[1]),
-                                Double.parseDouble(parts[2])));
+                                Double.parseDouble(parts[1].replace(',', '.')),
+                                Double.parseDouble(parts[2].replace(',', '.'))));
                 }
             }
             fis.close();
