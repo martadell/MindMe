@@ -2,6 +2,7 @@ package edu.upc.eseiaat.pma.mindme.mindme;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -68,16 +70,11 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()){
                             case R.id.edita:
-                                Intent intent = new Intent(getContext(), EditFolderActivity.class);
-                                intent.putExtra("nom carpeta", c.getNom_carpeta());
-                                intent.putExtra("id drawable", c.getRuta_drawable());
-                                intent.putExtra("posicio carpeta", position);
-                                ((Activity) getContext()).startActivityForResult(intent, 0);
+                                editar_accio(position);
+                                return true;
                             case R.id.elimina:
-                                /*Intent intent1 = new Intent(getContext(), FolderListActivity.class);
-                                carpetes.remove(position);
-                                getContext().startActivity(intent1);
-                                return true;*/
+                                eliminar_accio(position);
+                                return true;
                             default:return false;
 
                         }
@@ -92,6 +89,30 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> {
         });
 
         return result;
+    }
+
+    public void editar_accio (int position){
+        Intent intent = new Intent(getContext(), EditFolderActivity.class);
+        intent.putExtra("nom carpeta", c.getNom_carpeta());
+        intent.putExtra("id drawable", c.getRuta_drawable());
+        intent.putExtra("posicio carpeta", position);
+        ((Activity) getContext()).startActivityForResult(intent, 0);
+    }
+
+    public void eliminar_accio (final int position){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.confirmation);
+        String message = " " + getItem(position).getNom_carpeta() + "?";
+        builder.setMessage(getContext().getResources().getString(R.string.mess) + message);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                carpetes.remove(position);
+                FolderListActivityAdapter.super.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.create().show();
     }
 
 }
