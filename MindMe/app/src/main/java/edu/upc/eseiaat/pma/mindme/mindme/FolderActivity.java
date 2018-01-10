@@ -41,6 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,6 +57,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private double lon;
     private PicturesAdapter adapter;
     private String pictureName;
+    private Bitmap photo;
 
     private static final int CAMERA_REQUEST = 10;
     private Uri pictureUri;
@@ -101,7 +103,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 for (String line : lines) {
                         String[] parts = line.split(";");
                         llista_fotos.add(new Picture(
-                                parts[0],
+                                Uri.parse(parts[0]),
                                 Double.parseDouble(parts[1].replace(',', '.')),
                                 Double.parseDouble(parts[2].replace(',', '.'))));
                 }
@@ -165,6 +167,12 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                         Toast.LENGTH_SHORT).show();
             }
         });
+        gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -206,7 +214,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         File imageFile = new File(pictureDirectory, pictureName);
         pictureUri = Uri.fromFile(imageFile);
 
-        //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
         startActivityForResult(cameraIntent,CAMERA_REQUEST);
     }
 
@@ -217,22 +225,43 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
             Log.i("URI path", pictureUri.getPath());
 
-            getBitmap();
+            //photo = (Bitmap) data.getExtras().get("data");
 
+            //getBitmap();
             // Gravar nosaltres el bitmap (si ho fa la app de la càmera dóna un android.os.FileUriExposedException
-            MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,
-                    pictureName + ".jpg Card Image", pictureName + ".jpg Card Image");
+            //MediaStore.Images.Media.insertImage(getContentResolver(), photo,
+              //      pictureName + ".jpg Card Image", pictureName + ".jpg Card Image");
+
+            /*try
+            {
+                OutputStream fOut = null;
+                File imageFile = new File(pictureDirectory, pictureName);
+                if(imageFile.exists()) {
+                    imageFile.delete();
+                }
+                imageFile.createNewFile();
+                fOut = new FileOutputStream(imageFile);
+                // 100 means no compression, the lower you go, the stronger the compression
+                photo.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                fOut.flush();
+                fOut.close();
+                pictureUri = Uri.fromFile(imageFile);
+            }
+            catch (Exception e)
+            {
+                Log.e("saveToExternalStorage()", e.getMessage());
+            }*/
 
             getLocation();
             addPicture();
-            addMarker();
+            addMarker(llista_fotos.get(llista_fotos.size()-1));
 
             adapter.notifyDataSetChanged();
         }
     }
 
     private void addPicture() {
-        llista_fotos.add(new Picture(pictureUri.toString(),lat,lon));
+        llista_fotos.add(new Picture(pictureUri,lat,lon));
     }
 
     private void getBitmap() {
@@ -309,16 +338,20 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
     //Assignar la ubicaciíó on es guardarà la imatge
     private File getPictureDirectory() {
-        folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/MindMe");
+        folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + "/MindMe");
         //crea la carpeta si no existeix
         if (!folder.exists()) {
-            folder.mkdir();
+            Toast.makeText(this, "S'ha creat la carpeta", Toast.LENGTH_SHORT).show();
+            folder.mkdir(); //TODO: enviar correu al pau
+        }
+        else {
+            Toast.makeText(this, folder.toString() , Toast.LENGTH_SHORT).show();
         }
         return folder;
     }
 
-    private void addMarker(){
-        LatLng cordinates = new LatLng(lat,lon);
+    private void addMarker(Picture pic){
+        LatLng cordinates = new LatLng(pic.getLat(),pic.getLng());
         dot = BitmapDescriptorFactory.fromResource(R.drawable.dot);
 
         mMap.addMarker(new MarkerOptions()
