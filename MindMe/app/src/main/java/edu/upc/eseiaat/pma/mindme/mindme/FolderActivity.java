@@ -2,6 +2,7 @@ package edu.upc.eseiaat.pma.mindme.mindme;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,7 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -41,8 +42,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,24 +52,18 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private ViewSwitcher simpleViewSwitcher;
     private BitmapDescriptor dot;
     private ArrayList<Picture> llista_fotos;
-    private Bitmap bitmap;
     private double lat;
     private double lon;
+    private static final int REQUEST_LOCATION = 99;
+    private static final int CAMERA_REQUEST = 10;
+    private static final int MAX_BYTES = 8000;
     private PicturesAdapter adapter;
     private String pictureName;
-    private Bitmap photo;
     private String mCurrentPhotoPath;
-    static final int REQUEST_TAKE_PHOTO = 1;
-
-    private static final int CAMERA_REQUEST = 10;
+    private static final String FILENAME = "picture_list.txt";
     private Uri pictureUri;
-
-    static final int REQUEST_LOCATION = 99;
     LocationManager locationManager;
     Location location;
-
-    private static final String FILENAME = "picture_list.txt";
-    private static final int MAX_BYTES = 8000;
     File folder;
 
     private void writePictureList(){
@@ -107,8 +100,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                         String[] parts = line.split(";");
                         llista_fotos.add(new Picture(
                                 parts[0],
-                                Double.parseDouble(parts[1].replace(',', '.')),
-                                Double.parseDouble(parts[2].replace(',', '.'))));
+                                Double.parseDouble(parts[1]/*.replace(',', '.')*/),
+                                Double.parseDouble(parts[2]/*.replace(',', '.')*/)));
                 }
             }
             fis.close();
@@ -144,20 +137,37 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
         mapFragment.getMapAsync(this);
 
+        /*for (int i = 0; i<llista_fotos.size(); i++){
+            addMarker(llista_fotos.get(i));
+        }*/
+
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Toast.makeText(FolderActivity.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Toast.makeText(FolderActivity.this, "" + position, Toast.LENGTH_SHORT).show();
             }
         });
         gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //TODO: alert dialogue delete this picture
+            public boolean onItemLongClick(AdapterView<?> adapterView, View item, int pos, long id) {
+                maybeRemoveItem(pos);
                 return false;
             }
         });
+    }
+
+    private void maybeRemoveItem(final int pos) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm);
+        builder.setMessage(R.string.confirm_message);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                llista_fotos.remove(pos);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.create().show();
     }
 
     @Override
