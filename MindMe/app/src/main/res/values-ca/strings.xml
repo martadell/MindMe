@@ -6,7 +6,10 @@
     <string name="label_nom">Nom</string>
     <string name="label_categoria">Categoria</string>
     <string name="action_search">Cerca...</string>
-
+    <string name="confirmation">Confirmació</string>
+    <string name="mess">Vol elminiar</string>
+    <string name="remove">Eliminar</string>
+    <string name="cancel">Cancelar</string>
 
     <array name="llistacategories">
 

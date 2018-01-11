@@ -7,6 +7,10 @@
     <string name="label_categoria">Categoria</string>
     <string name="label_nom">Nombre</string>
     <string name="action_search">Buscar...</string>
+    <string name="confirmation">Confirmación</string>
+    <string name="mess">Quiere eliminar</string>
+    <string name="remove">Eliminar</string>
+    <string name="cancel">Cancelar</string>
 
     <array name="llistacategories">
 
