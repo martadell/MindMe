@@ -100,8 +100,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                         String[] parts = line.split(";");
                         llista_fotos.add(new Picture(
                                 parts[0],
-                                Double.parseDouble(parts[1]/*.replace(',', '.')*/),
-                                Double.parseDouble(parts[2]/*.replace(',', '.')*/)));
+                                Double.parseDouble(parts[1]),
+                                Double.parseDouble(parts[2])));
                 }
             }
             fis.close();
@@ -137,13 +137,13 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
         mapFragment.getMapAsync(this);
 
-        /*for (int i = 0; i<llista_fotos.size(); i++){
-            addMarker(llista_fotos.get(i));
-        }*/
-
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(FolderActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+                String message = String.format("%s\n %f\n %f",
+                        llista_fotos.get(position).getFoto(),
+                        llista_fotos.get(position).getLat(),
+                        llista_fotos.get(position).getLng());
+                Toast.makeText(FolderActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
         gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -190,6 +190,10 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        for (int i = 0; i<llista_fotos.size(); i++){
+            addMarker(llista_fotos.get(i));
+        }
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
