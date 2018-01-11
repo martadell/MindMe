@@ -12,17 +12,17 @@ import java.net.URI;
  */
 
 public class Picture {
-    private Uri foto;
+    private String foto;
     private double lat;
     private double lng;
 
-    public Picture (Uri foto, double lat, double lng){
+    public Picture (String foto, double lat, double lng){
         this.foto = foto;
         this.lat = lat;
         this.lng = lng;
     }
 
-    public Uri getFoto() { return foto; }
+    public String getFoto() { return foto; }
 
     public double getLat() {
         return lat;

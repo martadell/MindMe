@@ -42,7 +42,7 @@ public class PicturesAdapter extends ArrayAdapter<Picture> {
 
         ImageView image = (ImageView) result.findViewById(R.id.imagen);
         //image.setImageResource(R.drawable.altres);
-        image.setImageURI(p.getFoto());
+        image.setImageURI(Uri.parse(p.getFoto()));
         return result;
     }
 }

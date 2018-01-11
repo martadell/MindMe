@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -58,6 +59,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private PicturesAdapter adapter;
     private String pictureName;
     private Bitmap photo;
+    private String mCurrentPhotoPath;
+    static final int REQUEST_TAKE_PHOTO = 1;
 
     private static final int CAMERA_REQUEST = 10;
     private Uri pictureUri;
@@ -75,7 +78,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_fotos.size(); i++){
                 Picture it = llista_fotos.get(i);
-                String line = String.format("%s;%s;%s\n",
+                String line = String.format("%s;%f;%f\n",
                         it.getFoto(),
                         it.getLat(),
                         it.getLng());
@@ -103,7 +106,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 for (String line : lines) {
                         String[] parts = line.split(";");
                         llista_fotos.add(new Picture(
-                                Uri.parse(parts[0]),
+                                parts[0],
                                 Double.parseDouble(parts[1].replace(',', '.')),
                                 Double.parseDouble(parts[2].replace(',', '.'))));
                 }
@@ -116,15 +119,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             Toast.makeText(this, R.string.cannot_read, Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState) {
-        Log.i("lifecycle", "onSaveInstanceState");
-        super.onSaveInstanceState(outState);
-        outState.putString("latitude", String.valueOf(lat));
-        outState.putString("longitude", String.valueOf(lon));
-        outState.putString("pictureUri", pictureUri.toString());
-    }*/
 
     @Override
     protected void onStop() {
@@ -145,16 +139,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         GridView gridview = (GridView) findViewById(R.id.pic_grid);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        //llista_fotos = new ArrayList<>();
-
-        /*if(savedInstanceState != null) {
-            Bundle state = savedInstanceState;
-            lat = Double.parseDouble(state.getString("latitude"));
-            lon = Double.parseDouble(state.getString("longitude"));
-            pictureUri = Uri.parse(state.getString("pictureUri"));
-            getBitmap();
-        }*/
-
 
         gridview.setAdapter(adapter);
 
@@ -170,6 +154,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO: alert dialogue delete this picture
                 return false;
             }
         });
@@ -213,9 +198,10 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
         File imageFile = new File(pictureDirectory, pictureName);
         pictureUri = Uri.fromFile(imageFile);
+        mCurrentPhotoPath = imageFile.getAbsolutePath();
 
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
-        startActivityForResult(cameraIntent,CAMERA_REQUEST);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 
     @Override
@@ -224,33 +210,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         if (resultCode == RESULT_OK  && requestCode == CAMERA_REQUEST) {
 
             Log.i("URI path", pictureUri.getPath());
-
-            //photo = (Bitmap) data.getExtras().get("data");
-
-            //getBitmap();
-            // Gravar nosaltres el bitmap (si ho fa la app de la càmera dóna un android.os.FileUriExposedException
-            //MediaStore.Images.Media.insertImage(getContentResolver(), photo,
-              //      pictureName + ".jpg Card Image", pictureName + ".jpg Card Image");
-
-            /*try
-            {
-                OutputStream fOut = null;
-                File imageFile = new File(pictureDirectory, pictureName);
-                if(imageFile.exists()) {
-                    imageFile.delete();
-                }
-                imageFile.createNewFile();
-                fOut = new FileOutputStream(imageFile);
-                // 100 means no compression, the lower you go, the stronger the compression
-                photo.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-                fOut.flush();
-                fOut.close();
-                pictureUri = Uri.fromFile(imageFile);
-            }
-            catch (Exception e)
-            {
-                Log.e("saveToExternalStorage()", e.getMessage());
-            }*/
 
             getLocation();
             addPicture();
@@ -261,47 +220,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void addPicture() {
-        llista_fotos.add(new Picture(pictureUri,lat,lon));
-    }
-
-    private void getBitmap() {
-        bitmap = null;
-
-        try {
-            bitmap = getThumbnail(pictureUri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public Bitmap getThumbnail(Uri uri) throws IOException {
-        InputStream input = this.getContentResolver().openInputStream(uri);
-
-        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
-        onlyBoundsOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
-        input.close();
-        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
-            return null;
-
-        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
-
-        double ratio = (originalSize > 1000) ? (originalSize / 1000) : 1.0;
-
-        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
-        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
-        input = this.getContentResolver().openInputStream(uri);
-        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
-        input.close();
-        return bitmap;
-    }
-
-    private static int getPowerOfTwoForSampleRatio(double ratio){
-        int k = Integer.highestOneBit((int)Math.floor(ratio));
-        if(k==0) return 1;
-        else return k;
+        llista_fotos.add(new Picture(mCurrentPhotoPath,lat,lon));
     }
 
     private void getLocation() {
@@ -342,7 +261,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         //crea la carpeta si no existeix
         if (!folder.exists()) {
             Toast.makeText(this, "S'ha creat la carpeta", Toast.LENGTH_SHORT).show();
-            folder.mkdir(); //TODO: enviar correu al pau
+            folder.mkdir();
         }
         else {
             Toast.makeText(this, folder.toString() , Toast.LENGTH_SHORT).show();
