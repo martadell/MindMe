@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -202,6 +199,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 return true;
             }
         });
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.3818,2.1685), 8.0f));
     }
 
     public void btn_camera(View view) {
@@ -292,6 +290,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 .icon(dot)
         );
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cordinates, 14.0f));
     }
 }
