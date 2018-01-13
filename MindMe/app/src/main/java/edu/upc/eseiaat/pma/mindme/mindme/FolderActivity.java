@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -12,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -57,6 +62,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private PicturesAdapter adapter;
     private String pictureName;
     private String mCurrentPhotoPath;
+    private String nom_carpeta;
+    private Drawable icona_carpeta;
     private static final String FILENAME = "picture_list.txt";
     private Uri pictureUri;
     LocationManager locationManager;
@@ -123,6 +130,13 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
         readPictureList();
 
+        Intent acces_carpeta = getIntent();
+        Bundle bundleobject = getIntent().getExtras();
+        llista_fotos = (ArrayList<Picture>) bundleobject.getSerializable("llista fotos");
+        nom_carpeta = acces_carpeta.getStringExtra("nom carpeta");
+        int ruta_drawable = acces_carpeta.getIntExtra("ruta drawable", 0);
+        icona_carpeta = getResources().getDrawable(ruta_drawable, getTheme());
+
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
         adapter = new PicturesAdapter(this, R.layout.activity_folder, llista_fotos);
@@ -141,9 +155,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                         llista_fotos.get(position).getLat(),
                         llista_fotos.get(position).getLng());
                 Toast.makeText(FolderActivity.this, message, Toast.LENGTH_SHORT).show();
-                Intent bigImage = new Intent(FolderActivity.this, PopUpActivity.class);
-                bigImage.putExtra("picture", llista_fotos.get(position).getFoto());
-                startActivity(bigImage);
             }
         });
         gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -174,6 +185,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.btn_switch, menu);
+        setTitle(nom_carpeta);
         return true;
     }
 
@@ -202,7 +214,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 return true;
             }
         });
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.3818,2.1685), 8.0f));
     }
 
     public void btn_camera(View view) {
@@ -248,9 +259,9 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 ActivityCompat.requestPermissions
                         (FolderActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                 REQUEST_LOCATION);
-            }
-        }
-        else {
+
+            } } else {
+
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             if (location != null){
@@ -260,6 +271,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 Toast.makeText(this, "Unable to find location", Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 
     //Obtenir el nom de l'arxiu al qual es guardarà la imatge
@@ -292,6 +304,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 .icon(dot)
         );
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cordinates, 14.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
     }
 }

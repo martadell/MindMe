@@ -3,9 +3,10 @@ package edu.upc.eseiaat.pma.mindme.mindme;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Carpeta {
+public class Carpeta implements Serializable {
 
     private String nom_carpeta;
     private Drawable icona;
@@ -53,5 +54,9 @@ public class Carpeta {
 
     public ArrayList<Picture> getLlista_fotos() {
         return llista_fotos;
+    }
+
+    public void setLlista_fotos(ArrayList<Picture> llista_fotos) {
+        this.llista_fotos = llista_fotos;
     }
 }

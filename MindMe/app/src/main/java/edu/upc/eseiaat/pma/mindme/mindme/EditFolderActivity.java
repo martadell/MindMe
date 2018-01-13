@@ -132,13 +132,7 @@ public class EditFolderActivity extends AppCompatActivity {
         String nc = nom_carpeta.getText().toString();
         Intent afegeix = new Intent();
 
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), imgs[p]);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-
         afegeix.putExtra("nom carpeta", nc);
-        afegeix.putExtra("icona", byteArray);
         afegeix.putExtra("posicio carpeta", posicio_carpeta);
         afegeix.putExtra("ruta drawable", imgs[p]);
         setResult(RESULT_OK, afegeix);
