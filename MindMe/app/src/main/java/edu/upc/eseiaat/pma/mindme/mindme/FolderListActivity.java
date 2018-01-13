@@ -19,25 +19,41 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FolderListActivity extends AppCompatActivity {
+public class FolderListActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ArrayList<Carpeta> llista_carpetes;
+    ArrayList<Picture> total_fotos;
     private FolderListActivityAdapter adapter;
     private ListView l_c, searchfolders;
     private SearchView searchView;
     private SearchView mapa;
-
-    //TODO versió 18 ordenar la llista amb un longclick (DragList)
+    private GoogleMap mMap;
+    private ViewSwitcher simpleViewSwitcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder_list);
 
+        simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         l_c = (ListView) findViewById(R.id.list_folders);
         searchfolders = (ListView) findViewById(R.id.search_folders);
@@ -161,24 +177,68 @@ public class FolderListActivity extends AppCompatActivity {
                 return true;
             case R.id.mapatotal:
 
-                ArrayList<Picture> total_fotos = new ArrayList<Picture>();
-
-                for (Carpeta c: llista_carpetes){
-                    total_fotos.addAll(c.getLlista_fotos());
-                }
-
-
-                Toast.makeText(this, " " + "Mapa total", Toast.LENGTH_SHORT).show();
+                simpleViewSwitcher.showNext();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    //TODO: - Mapa a la FolderList (Berta)
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        total_fotos = new ArrayList<Picture>();
+
+        for (Carpeta c: llista_carpetes){
+            total_fotos.addAll(c.getLlista_fotos());
+        }
+
+        if (!total_fotos.isEmpty()) {
+            for (int i = 0; i < total_fotos.size(); i++) {
+                addMarker(total_fotos.get(i));
+            }
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
+                            total_fotos.get(total_fotos.size() - 1).getLat(),
+                            total_fotos.get(total_fotos.size() - 1).getLng()),
+                    5.0f));
+        }
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                for (int i = 0; i<total_fotos.size(); i++){
+                    if (String.valueOf(marker.getPosition().latitude).equals(String.valueOf(total_fotos.get(i).getLat()))
+                            && String.valueOf(marker.getPosition().longitude).equals(String.valueOf(total_fotos.get(i).getLng()))){
+                        callPopUp(total_fotos.get(i).getFoto());
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    private void addMarker(Picture pic){
+        LatLng cordinates = new LatLng(pic.getLat(),pic.getLng());
+        BitmapDescriptor dot = BitmapDescriptorFactory.fromResource(R.drawable.dot);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(cordinates)
+                .icon(dot)
+        );
+    }
+
+    private void callPopUp (String foto){
+        Intent bigImage = new Intent(FolderListActivity.this, PopUpActivity.class);
+        bigImage.putExtra("picture", foto);
+        startActivity(bigImage);
+    }
+
+    //TODO: - Icona galeria i que canvi al fer click entre el mapa i galeria
     //TODO: - Guardar tot en llistes
     //TODO: - 3 puntets
-    //TODO: - DragList
+    //TODO: - DragList V18
     //TODO: - Personalitzar actionbar
     //TODO: - Posar-ho tot per a que es vegi maco al mobil
 
