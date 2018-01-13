@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> {
 
@@ -48,45 +49,45 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             result = inflater.inflate(R.layout.itemfolderlist,null);
         }
+            c = getItem(position);
 
-        c = getItem(position);
+            ImageView image = (ImageView) result.findViewById(R.id.icona);
+            image.setImageDrawable(c.getIcona());
 
-        ImageView image = (ImageView) result.findViewById(R.id.icona);
-        image.setImageDrawable(c.getIcona());
+            TextView nom_carpeta = (TextView) result.findViewById(R.id.nom_carpeta);
+            nom_carpeta.setText(c.getNom_carpeta());
 
-        TextView nom_carpeta = (TextView) result.findViewById(R.id.nom_carpeta);
-        nom_carpeta.setText(c.getNom_carpeta());
+            final ImageButton btn_opcions = (ImageButton) result.findViewById(R.id.btn_opcions);
+            btn_opcions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-        final ImageButton btn_opcions = (ImageButton) result.findViewById(R.id.btn_opcions);
-        btn_opcions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                    PopupMenu popupMenu = new PopupMenu(getContext(), btn_opcions);
+                    popupMenu.getMenuInflater().inflate(R.menu.popup_menuopcions, popupMenu.getMenu());
 
-                PopupMenu popupMenu = new PopupMenu(getContext(), btn_opcions);
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menuopcions, popupMenu.getMenu() );
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.edita:
+                                    editar_accio(position);
+                                    return true;
+                                case R.id.elimina:
+                                    eliminar_accio(position);
+                                    return true;
+                                default:
+                                    return false;
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
-                            case R.id.edita:
-                                editar_accio(position);
-                                return true;
-                            case R.id.elimina:
-                                eliminar_accio(position);
-                                return true;
-                            default:return false;
+                            }
 
+                            //Toast.makeText(getContext(), " " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                         }
+                    });
 
-                        //Toast.makeText(getContext(), " " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    popupMenu.show();
 
-                popupMenu.show();
-
-            }
-        });
+                }
+            });
 
         return result;
     }
@@ -99,7 +100,7 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> {
         ((Activity) getContext()).startActivityForResult(intent, 0);
     }
 
-    public void eliminar_accio (final int position){
+    public void eliminar_accio (final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.confirmation);
         String message = " " + getItem(position).getNom_carpeta() + "?";
@@ -114,5 +115,4 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> {
         builder.setNegativeButton(R.string.cancel, null);
         builder.create().show();
     }
-
 }
