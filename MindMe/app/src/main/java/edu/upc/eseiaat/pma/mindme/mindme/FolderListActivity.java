@@ -174,4 +174,13 @@ public class FolderListActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    //TODO: - Mapa a la FolderList (Berta)
+    //TODO: - Guardar tot en llistes
+    //TODO: - 3 puntets
+    //TODO: - DragList
+    //TODO: - Personalitzar actionbar
+    //TODO: - PopUp en els puntets del mapa (Berta)
+    //TODO: - Posar-ho tot per a que es vegi maco al mobil
+
 }

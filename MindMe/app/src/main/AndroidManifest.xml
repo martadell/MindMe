@@ -33,7 +33,7 @@
         <activity android:name=".FolderActivity" />
         <activity android:name=".EditFolderActivity" />
         <activity android:name=".PopUpActivity"
-            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
         </activity>
     </application>
 
