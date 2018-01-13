@@ -160,9 +160,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                         llista_fotos.get(position).getLat(),
                         llista_fotos.get(position).getLng());
                 Toast.makeText(FolderActivity.this, message, Toast.LENGTH_SHORT).show();*/
-                Intent bigImage = new Intent(FolderActivity.this, PopUpActivity.class);
-                bigImage.putExtra("picture", llista_fotos.get(position).getFoto());
-                startActivity(bigImage);
+                callPopUp(llista_fotos.get(position).getFoto());
             }
         });
         gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -220,7 +218,13 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(FolderActivity.this, marker.getPosition().toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FolderActivity.this, String.valueOf(marker.getPosition().latitude), Toast.LENGTH_SHORT).show();
+                for (int i = 0; i<llista_fotos.size(); i++){
+                    if (String.valueOf(marker.getPosition().latitude).equals(String.valueOf(llista_fotos.get(i).getLat()))
+                            && String.valueOf(marker.getPosition().longitude).equals(String.valueOf(llista_fotos.get(i).getLng()))){
+                        callPopUp(llista_fotos.get(i).getFoto());
+                    }
+                }
                 return true;
             }
         });
@@ -315,5 +319,11 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         );
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
+    }
+
+    private void callPopUp (String foto){
+        Intent bigImage = new Intent(FolderActivity.this, PopUpActivity.class);
+        bigImage.putExtra("picture", foto);
+        startActivity(bigImage);
     }
 }
