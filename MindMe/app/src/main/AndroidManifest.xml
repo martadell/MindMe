@@ -30,8 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FolderActivity"
-        />
+        <activity android:name=".FolderActivity" />
         <activity android:name=".EditFolderActivity" />
         <activity android:name=".PopUpActivity"
             android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar">

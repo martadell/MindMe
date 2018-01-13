@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -72,7 +73,7 @@ public class EditFolderActivity extends AppCompatActivity {
 
 
         for (int i = 0; i < noms_cat.length; i++) {
-            Drawable drawable = getResources().getDrawable(imgs[i], getTheme());
+            Drawable drawable = ContextCompat.getDrawable(this, imgs[i]);
             llistacat.add(new Categories(noms_cat[i], drawable));
         }
 

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -128,6 +129,10 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder);
 
+        //AFEGIR FLETXA ENRERE ACTIONBAR
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         readPictureList();
 
         Intent acces_carpeta = getIntent();
@@ -135,7 +140,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         llista_fotos = (ArrayList<Picture>) bundleobject.getSerializable("llista fotos");
         nom_carpeta = acces_carpeta.getStringExtra("nom carpeta");
         int ruta_drawable = acces_carpeta.getIntExtra("ruta drawable", 0);
-        icona_carpeta = getResources().getDrawable(ruta_drawable, getTheme());
+        icona_carpeta = ContextCompat.getDrawable(this, ruta_drawable);;
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
@@ -188,7 +193,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.btn_switch, menu);
-        setTitle(nom_carpeta);
         return true;
     }
 
@@ -197,6 +201,9 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         switch (item.getItemId()) {
             case R.id.btn_switch:
                 simpleViewSwitcher.showNext();
+                return true;
+            case android.R.id.home:
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);

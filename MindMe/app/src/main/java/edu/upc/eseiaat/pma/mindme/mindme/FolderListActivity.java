@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -92,7 +93,7 @@ public class FolderListActivity extends AppCompatActivity {
                     int ruta_drawable = afegir.getIntExtra("ruta drawable", 0);
                     int posicio_carpeta = afegir.getIntExtra("posicio carpeta", -1);
 
-                    Drawable d = getResources().getDrawable(ruta_drawable, getTheme());
+                    Drawable d = ContextCompat.getDrawable(this, ruta_drawable);
 
                     if (!nom.isEmpty()) {
                         if (posicio_carpeta != -1) {
