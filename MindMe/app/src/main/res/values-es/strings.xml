@@ -8,8 +8,7 @@
     <string name="label_nom">Nombre</string>
     <string name="action_search">Buscar...</string>
     <string name="confirmation">Confirmación</string>
-    <string name="mess">Quiere eliminar</string>
-    <string name="remove">Eliminar</string>
+    <string name="mess">¿Quiere eliminar</string>
     <string name="cancel">Cancelar</string>
 
     <array name="llistacategories">
@@ -27,4 +26,6 @@
     </array>
     <string name="edit">Editar</string>
     <string name="delete">Eliminar</string>
+    <string name="confirmationmessage">¿Está seguro que quiere eliminar la foto?</string>
+    <string name="cannot_read">No se puede leer la lista</string>
 </resources>

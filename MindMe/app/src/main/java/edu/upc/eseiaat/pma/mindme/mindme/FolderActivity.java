@@ -157,8 +157,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void maybeRemoveItem(final int pos) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.confirm);
-        builder.setMessage(R.string.confirm_message);
+        builder.setTitle(R.string.confirmation);
+        builder.setMessage(R.string.confirmationmessage);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

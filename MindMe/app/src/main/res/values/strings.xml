@@ -10,7 +10,8 @@
     <string name="action_search">Search...</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
-    <string name="confirmation">Are you sure you want to delete?</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="confirmationmessage">Are you sure you want to delete the picture?</string>
     <string name="mess">Are you sure?</string>
     <string name="cancel">Cancel</string>
 

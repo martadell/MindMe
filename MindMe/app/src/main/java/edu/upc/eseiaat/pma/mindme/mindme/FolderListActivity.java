@@ -83,9 +83,6 @@ public class FolderListActivity extends AppCompatActivity {
         }
     }
 
-
-    //TODO acitonbar buscar
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

@@ -8,7 +8,6 @@
     <string name="action_search">Cerca...</string>
     <string name="confirmation">Confirmació</string>
     <string name="mess">Vol elminiar</string>
-    <string name="remove">Eliminar</string>
     <string name="cancel">Cancelar</string>
 
     <array name="llistacategories">
@@ -26,4 +25,7 @@
     </array>
     <string name="edit">Edita</string>
     <string name="delete">Elimina</string>
+    <string name="confirmationmessage">Està segur que vol eliminar la foto?</string>
+    <string name="cannot_read">No es pot llegir la llista</string>
+    <string name="cannot_write"></string>
 </resources>
