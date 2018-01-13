@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -46,6 +47,33 @@ public class FolderListActivity extends AppCompatActivity {
         adapter = new FolderListActivityAdapter(this, R.layout.activity_folder_list, llista_carpetes);
         l_c.setAdapter(adapter);
 
+        l_c.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
+                 Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("llista fotos", llista_carpetes.get(pos).getLlista_fotos());
+                accedir_carpeta.putExtras(bundle);
+                accedir_carpeta.putExtra("nom carpeta", llista_carpetes.get(pos).getNom_carpeta());
+                accedir_carpeta.putExtra("ruta drawable", llista_carpetes.get(pos).getRuta_drawable());
+                startActivityForResult(accedir_carpeta, 1);
+               // Toast.makeText(FolderListActivity.this, " " + "Click carpeta", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        searchfolders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
+              Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("llista fotos", llista_carpetes.get(pos).getLlista_fotos());
+                accedir_carpeta.putExtras(bundle);
+                accedir_carpeta.putExtra("nom carpeta", llista_carpetes.get(pos).getNom_carpeta());
+                accedir_carpeta.putExtra("ruta drawable", llista_carpetes.get(pos).getRuta_drawable());
+                startActivityForResult(accedir_carpeta, 1);
+                //Toast.makeText(FolderListActivity.this, " " + "Click carpeta search", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -64,11 +92,7 @@ public class FolderListActivity extends AppCompatActivity {
                     int ruta_drawable = afegir.getIntExtra("ruta drawable", 0);
                     int posicio_carpeta = afegir.getIntExtra("posicio carpeta", -1);
 
-                    Bundle bundle = afegir.getExtras();
-                    byte[] b = bundle.getByteArray("icona");
-
-                    Bitmap bmp = BitmapFactory.decodeByteArray(b, 0, b.length);
-                    Drawable d = new BitmapDrawable(getResources(), bmp);
+                    Drawable d = getResources().getDrawable(ruta_drawable, getTheme());
 
                     if (!nom.isEmpty()) {
                         if (posicio_carpeta != -1) {
@@ -79,14 +103,14 @@ public class FolderListActivity extends AppCompatActivity {
                             llista_carpetes.add(new Carpeta(nom, d, ruta_drawable, new ArrayList<Picture>()));
                         }
                     }
-                    l_c.setVisibility(View.VISIBLE);
                     searchfolders.setVisibility(View.INVISIBLE);
+                    l_c.setVisibility(View.VISIBLE);
                     adapter.notifyDataSetChanged();
                 }
         }
     }
 
-    @Override
+  //  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.search_menu, menu);
@@ -105,7 +129,7 @@ public class FolderListActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.menuSearch:
-                
+
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -128,11 +152,21 @@ public class FolderListActivity extends AppCompatActivity {
                                 filtered.add(c);
                             }
                         }
+
                         return true;
                     }
                 });
+
                 return true;
             case R.id.mapatotal:
+
+                ArrayList<Picture> total_fotos = new ArrayList<Picture>();
+
+                for (Carpeta c: llista_carpetes){
+                    total_fotos.addAll(c.getLlista_fotos());
+                }
+
+
                 Toast.makeText(this, " " + "Mapa total", Toast.LENGTH_SHORT).show();
                 return true;
             default:
