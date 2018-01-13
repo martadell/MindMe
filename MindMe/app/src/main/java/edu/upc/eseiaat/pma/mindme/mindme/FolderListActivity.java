@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ public class FolderListActivity extends AppCompatActivity {
     private ArrayList<Carpeta> llista_carpetes;
     private FolderListActivityAdapter adapter;
     private ListView l_c, searchfolders;
+    private SearchView searchView;
+    private SearchView mapa;
 
     //TODO versió 18 ordenar la llista amb un longclick (DragList)
 
@@ -89,35 +92,51 @@ public class FolderListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.search_menu, menu);
 
         MenuItem searchitem = menu.findItem(R.id.menuSearch);
+        MenuItem mapatotal = menu.findItem(R.id.mapatotal);
 
-        final SearchView searchView = (SearchView) searchitem.getActionView();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                l_c.setVisibility(View.INVISIBLE);
-                searchfolders.setVisibility(View.VISIBLE);
-
-                ArrayList<Carpeta> filtered = new ArrayList<Carpeta>();
-
-                FolderListActivityAdapter searchadapter = new FolderListActivityAdapter(getApplicationContext(), R.layout.activity_folder_list, filtered);
-                searchfolders.setAdapter(searchadapter);
-
-                for (Carpeta c: llista_carpetes) {
-                    if (c.getNom_carpeta().contains(newText)) {
-                        filtered.add(c);
-                    }
-                }
-                return true;
-            }
-        });
+        searchView = (SearchView) searchitem.getActionView();
+        mapa = (SearchView) mapatotal.getActionView();
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.menuSearch:
+                
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+
+                        l_c.setVisibility(View.INVISIBLE);
+                        searchfolders.setVisibility(View.VISIBLE);
+
+                        ArrayList<Carpeta> filtered = new ArrayList<Carpeta>();
+
+                        FolderListActivityAdapter searchadapter = new FolderListActivityAdapter(getApplicationContext(), R.layout.activity_folder_list, filtered);
+                        searchfolders.setAdapter(searchadapter);
+
+                        for (Carpeta c: llista_carpetes) {
+                            if (c.getNom_carpeta().contains(newText)) {
+                                filtered.add(c);
+                            }
+                        }
+                        return true;
+                    }
+                });
+                return true;
+            case R.id.mapatotal:
+                Toast.makeText(this, " " + "Mapa total", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
