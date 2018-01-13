@@ -150,11 +150,14 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                String message = String.format("%s\n %f\n %f",
+                /*String message = String.format("%s\n %f\n %f",
                         llista_fotos.get(position).getFoto(),
                         llista_fotos.get(position).getLat(),
                         llista_fotos.get(position).getLng());
-                Toast.makeText(FolderActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FolderActivity.this, message, Toast.LENGTH_SHORT).show();*/
+                Intent bigImage = new Intent(FolderActivity.this, PopUpActivity.class);
+                bigImage.putExtra("picture", llista_fotos.get(position).getFoto());
+                startActivity(bigImage);
             }
         });
         gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
