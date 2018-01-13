@@ -141,6 +141,9 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                         llista_fotos.get(position).getLat(),
                         llista_fotos.get(position).getLng());
                 Toast.makeText(FolderActivity.this, message, Toast.LENGTH_SHORT).show();
+                Intent bigImage = new Intent(FolderActivity.this, PopUpActivity.class);
+                bigImage.putExtra("picture", llista_fotos.get(position).getFoto());
+                startActivity(bigImage);
             }
         });
         gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -245,9 +248,9 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 ActivityCompat.requestPermissions
                         (FolderActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                 REQUEST_LOCATION);
-
-            } } else {
-
+            }
+        }
+        else {
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             if (location != null){
@@ -257,7 +260,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 Toast.makeText(this, "Unable to find location", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     //Obtenir el nom de l'arxiu al qual es guardarà la imatge
