@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +50,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static edu.upc.eseiaat.pma.mindme.mindme.R.id.btn_switch;
+import static edu.upc.eseiaat.pma.mindme.mindme.R.id.mapatotal;
+
 public class FolderActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -70,6 +74,9 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     LocationManager locationManager;
     Location location;
     File folder;
+    private String actLay = "galeria";
+    MenuItem btn_switch;
+    private SearchView boto;
 
     private void writePictureList(){
         try {
@@ -186,6 +193,10 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.btn_switch, menu);
+
+        btn_switch = menu.findItem(R.id.btn_switch);
+        boto = (SearchView) btn_switch.getActionView();
+
         return true;
     }
 
@@ -194,6 +205,14 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         switch (item.getItemId()) {
             case R.id.btn_switch:
                 simpleViewSwitcher.showNext();
+                if (actLay.equals("galeria")){
+                    btn_switch.setIcon(R.drawable.galeria);
+                    actLay = "mapa";
+                }
+                else if (actLay.equals("mapa")){
+                    btn_switch.setIcon(R.drawable.mapa);
+                    actLay = "galeria";
+                }
                 return true;
             case android.R.id.home:
                 onBackPressed();

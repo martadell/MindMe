@@ -44,6 +44,9 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     private SearchView mapa;
     private GoogleMap mMap;
     private ViewSwitcher simpleViewSwitcher;
+    MenuItem searchitem;
+    MenuItem mapatotal;
+    private String actLay = "galeria";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,8 +135,8 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
 
         getMenuInflater().inflate(R.menu.search_menu, menu);
 
-        MenuItem searchitem = menu.findItem(R.id.menuSearch);
-        MenuItem mapatotal = menu.findItem(R.id.mapatotal);
+        searchitem = menu.findItem(R.id.menuSearch);
+        mapatotal = menu.findItem(R.id.mapatotal);
 
         searchView = (SearchView) searchitem.getActionView();
         mapa = (SearchView) mapatotal.getActionView();
@@ -169,7 +172,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                                 filtered.add(c);
                             }
                         }
-
                         return true;
                     }
                 });
@@ -178,6 +180,14 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
             case R.id.mapatotal:
 
                 simpleViewSwitcher.showNext();
+                if (actLay.equals("galeria")){
+                    mapatotal.setIcon(R.drawable.galeria);
+                    actLay = "mapa";
+                }
+                else if (actLay.equals("mapa")){
+                    mapatotal.setIcon(R.drawable.mapa);
+                    actLay = "galeria";
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -235,7 +245,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         startActivity(bigImage);
     }
 
-    //TODO: - Icona galeria i que canvi al fer click entre el mapa i galeria
+    //TODO: - Fer que el boto afegir carpeta no es mogui quan passes a mode cerca
     //TODO: - Guardar tot en llistes
     //TODO: - 3 puntets
     //TODO: - DragList V18
