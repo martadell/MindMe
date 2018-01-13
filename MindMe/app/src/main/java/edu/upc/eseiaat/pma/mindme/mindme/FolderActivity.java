@@ -155,11 +155,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                /*String message = String.format("%s\n %f\n %f",
-                        llista_fotos.get(position).getFoto(),
-                        llista_fotos.get(position).getLat(),
-                        llista_fotos.get(position).getLng());
-                Toast.makeText(FolderActivity.this, message, Toast.LENGTH_SHORT).show();*/
                 callPopUp(llista_fotos.get(position).getFoto());
             }
         });
@@ -215,10 +210,11 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             addMarker(llista_fotos.get(i));
         }
 
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.3818, 2.1685), 8.0f));
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                //Toast.makeText(FolderActivity.this, String.valueOf(marker.getPosition().latitude), Toast.LENGTH_SHORT).show();
                 for (int i = 0; i<llista_fotos.size(); i++){
                     if (String.valueOf(marker.getPosition().latitude).equals(String.valueOf(llista_fotos.get(i).getLat()))
                             && String.valueOf(marker.getPosition().longitude).equals(String.valueOf(llista_fotos.get(i).getLng()))){
@@ -304,7 +300,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             folder.mkdir();
         }
         else {
-            Toast.makeText(this, folder.toString() , Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, folder.toString() , Toast.LENGTH_SHORT).show();
         }
         return folder;
     }
@@ -318,7 +314,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 .icon(dot)
         );
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(cordinates));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cordinates, 14.0f));
     }
 
     private void callPopUp (String foto){

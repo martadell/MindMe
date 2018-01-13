@@ -180,7 +180,6 @@ public class FolderListActivity extends AppCompatActivity {
     //TODO: - 3 puntets
     //TODO: - DragList
     //TODO: - Personalitzar actionbar
-    //TODO: - PopUp en els puntets del mapa (Berta)
     //TODO: - Posar-ho tot per a que es vegi maco al mobil
 
 }
