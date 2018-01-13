@@ -10,4 +10,10 @@
         app:showAsAction="always|collapseActionView"
         ></item>
 
+    <item android:id="@+id/mapatotal"
+        android:title="Search"
+        android:icon="@drawable/mapa"
+        app:showAsAction="always|collapseActionView"
+        ></item>
+
 </menu>

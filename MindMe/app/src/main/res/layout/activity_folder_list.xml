@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.upc.eseiaat.pma.mindme.mindme.FolderListActivity">
+    tools:context="edu.upc.eseiaat.pma.mindme.mindme.FolderListActivity"
+   >
 
 
     <ListView
@@ -12,14 +13,17 @@
         android:layout_width="368dp"
         android:layout_height="495dp"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteY="8dp"
+
+    />
 
     <ListView
         android:id="@+id/search_folders"
         android:layout_width="368dp"
         android:layout_height="495dp"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteY="8dp"
+    />
 
     <ImageButton
         android:id="@+id/btn_wrong"

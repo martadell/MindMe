@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/btn_switch"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@drawable/mapa"
         app:showAsAction="always"
         />
 
