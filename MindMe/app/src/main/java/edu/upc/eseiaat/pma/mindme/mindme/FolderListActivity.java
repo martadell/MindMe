@@ -1,5 +1,7 @@
 package edu.upc.eseiaat.pma.mindme.mindme;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,11 +18,13 @@ import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FolderListActivity extends AppCompatActivity {
 
     private ArrayList<Carpeta> llista_carpetes;
     private FolderListActivityAdapter adapter;
+    private ListView l_c, searchfolders;
 
     //TODO versió 18 ordenar la llista amb un longclick (DragList)
 
@@ -30,13 +34,15 @@ public class FolderListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_folder_list);
 
 
-        ListView l_c = (ListView) findViewById(R.id.list_folders);
+        l_c = (ListView) findViewById(R.id.list_folders);
+        searchfolders = (ListView) findViewById(R.id.search_folders);
 
+        searchfolders.setVisibility(View.INVISIBLE);
         llista_carpetes = new ArrayList<Carpeta>();
-
 
         adapter = new FolderListActivityAdapter(this, R.layout.activity_folder_list, llista_carpetes);
         l_c.setAdapter(adapter);
+
 
     }
 
@@ -70,21 +76,24 @@ public class FolderListActivity extends AppCompatActivity {
                             llista_carpetes.add(new Carpeta(nom, d, ruta_drawable, new ArrayList<Picture>()));
                         }
                     }
+                    l_c.setVisibility(View.VISIBLE);
+                    searchfolders.setVisibility(View.INVISIBLE);
                     adapter.notifyDataSetChanged();
                 }
         }
     }
 
+
     //TODO acitonbar buscar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.search_menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.menuSearch);
-        SearchView searchView =
-                (SearchView) searchItem.getActionView();
+        MenuItem searchitem = menu.findItem(R.id.menuSearch);
 
+        final SearchView searchView = (SearchView) searchitem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -94,13 +103,24 @@ public class FolderListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
 
-                return false;
+                l_c.setVisibility(View.INVISIBLE);
+                searchfolders.setVisibility(View.VISIBLE);
+
+                ArrayList<Carpeta> filtered = new ArrayList<Carpeta>();
+
+                FolderListActivityAdapter searchadapter = new FolderListActivityAdapter(getApplicationContext(), R.layout.activity_folder_list, filtered);
+                searchfolders.setAdapter(searchadapter);
+
+                for (Carpeta c: llista_carpetes) {
+                    if (c.getNom_carpeta().contains(newText)) {
+                        filtered.add(c);
+                    }
+                }
+                return true;
             }
         });
 
         return super.onCreateOptionsMenu(menu);
     }
-
 }
