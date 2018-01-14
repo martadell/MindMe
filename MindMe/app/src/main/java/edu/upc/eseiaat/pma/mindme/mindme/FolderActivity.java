@@ -147,8 +147,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         Intent acces_carpeta = getIntent();
         Bundle bundleobject = getIntent().getExtras();
         llista_fotos = (ArrayList<Picture>) bundleobject.getSerializable("llista fotos");
-        nom_carpeta = acces_carpeta.getStringExtra("nom carpeta");
-        int ruta_drawable = acces_carpeta.getIntExtra("ruta drawable", 0);
+        nom_carpeta = acces_carpeta.getStringExtra("nc");
+        int ruta_drawable = acces_carpeta.getIntExtra("rd", 0);
         icona_carpeta = ContextCompat.getDrawable(this, ruta_drawable);
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -221,8 +221,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("llista fotos", llista_fotos);
                 return_carpeta.putExtras(bundle);
-                return_carpeta.putExtra("nom carpeta", nom_carpeta);
-                setResult(RESULT_OK, return_carpeta);
+                return_carpeta.putExtra("nc", nom_carpeta);
+                setResult(1, return_carpeta);
                 onBackPressed();
                 return true;
         }

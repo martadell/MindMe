@@ -136,7 +136,7 @@ public class EditFolderActivity extends AppCompatActivity {
         afegeix.putExtra("nom carpeta", nc);
         afegeix.putExtra("posicio carpeta", posicio_carpeta);
         afegeix.putExtra("ruta drawable", imgs[p]);
-        setResult(RESULT_OK, afegeix);
+        setResult(0, afegeix);
         finish();
     }
 
