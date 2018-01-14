@@ -33,7 +33,7 @@ import java.util.Locale;
 
 public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements Filterable{
 
-    private List<Carpeta>  carpetes_originals;
+    private List<Carpeta>  carpetes_originals, carpetes_filtered;
     private Carpeta c;
     private NewFilter filter;
 
@@ -41,6 +41,7 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements 
     public FolderListActivityAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Carpeta> objects) {
         super(context, resource, objects);
         carpetes_originals = objects;
+        carpetes_filtered = objects;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements 
             LayoutInflater inflater = LayoutInflater.from(getContext());
             result = inflater.inflate(R.layout.itemfolderlist,null);
         }
-            c = getItem(position);
+            c = carpetes_originals.get(position);
 
             ImageView image = (ImageView) result.findViewById(R.id.icona);
             image.setImageDrawable(c.getIcona());
@@ -78,6 +79,9 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements 
                                     return true;
                                 case R.id.elimina:
                                     eliminar_accio(position);
+                                    String txt = String.format("picture_list_%s_%d.txt",
+                                            c.getNom_carpeta(), c.getRuta_drawable());
+                                    getContext().deleteFile(txt);
                                     return true;
                                 default:
                                     return false;
@@ -120,6 +124,10 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements 
         builder.create().show();
     }
 
+    public int getCount (){
+        return carpetes_originals.size();
+    }
+
     public Filter getFilter (){
 
        if (filter == null){
@@ -140,9 +148,9 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements 
 
                 List<Carpeta> filtered = new ArrayList<Carpeta>();
 
-                for (int i=0; i<carpetes_originals.size();i++) {
-                    if (carpetes_originals.get(i).getNom_carpeta().toUpperCase().contains(constraint)) {
-
+                for (int i=0; i<carpetes_filtered.size();i++) {
+                    if (carpetes_filtered.get(i).getNom_carpeta().toUpperCase().contains(constraint)) {
+                        filtered.add(carpetes_filtered.get(i));
                     }
                 }
 
@@ -151,8 +159,8 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements 
 
 
             } else {
-                results.count = carpetes_originals.size();
-                results.values = carpetes_originals;
+                results.count = carpetes_filtered.size();
+                results.values = carpetes_filtered;
             }
             return results;
 
