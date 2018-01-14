@@ -189,6 +189,9 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.btn_switch, menu);
 
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        ab.setTitle(nom_carpeta);
+
         btn_switch = menu.findItem(R.id.btn_switch);
         boto = (SearchView) btn_switch.getActionView();
 

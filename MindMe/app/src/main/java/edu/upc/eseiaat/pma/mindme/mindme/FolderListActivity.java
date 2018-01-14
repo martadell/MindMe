@@ -126,7 +126,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                 Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
                 accedir_carpeta.putExtra("nc", llista_carpetes.get(pos).getNom_carpeta());
                 accedir_carpeta.putExtra("rd", llista_carpetes.get(pos).getRuta_drawable());
-                startActivityForResult(accedir_carpeta, 1);
+                startActivity(accedir_carpeta);
                 // Toast.makeText(FolderListActivity.this, " " + "Click carpeta", Toast.LENGTH_SHORT).show();
             }
         });
