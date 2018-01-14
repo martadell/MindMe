@@ -65,6 +65,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final int REQUEST_LOCATION = 99;
     private static final int CAMERA_REQUEST = 10;
     private static final int MAX_BYTES = 10000;
+    int ruta_drawable;
     private PicturesAdapter adapter;
     private String pictureName;
     private String mCurrentPhotoPath;
@@ -81,7 +82,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void writePictureList(){
         try {
-            FILENAME = String.format("picture_list_%s.txt", nom_carpeta);
+            FILENAME = String.format("picture_list_%s_%d.txt", nom_carpeta, ruta_drawable);
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_fotos.size(); i++){
                 Picture it = llista_fotos.get(i);
@@ -104,7 +105,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private void readPictureList(){
         llista_fotos = new ArrayList<>();
         try {
-            FILENAME = String.format("picture_list_%s.txt", nom_carpeta);
+            FILENAME = String.format("picture_list_%s_%d.txt", nom_carpeta, ruta_drawable);
             FileInputStream fis = openFileInput(FILENAME);
             byte[] buffer = new byte[MAX_BYTES];
             int nread = fis.read(buffer);
@@ -146,7 +147,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
         Intent acces_carpeta = getIntent();
         nom_carpeta = acces_carpeta.getStringExtra("nc");
-        int ruta_drawable = acces_carpeta.getIntExtra("rd", 0);
+        ruta_drawable = acces_carpeta.getIntExtra("rd", 0);
         icona_carpeta = ContextCompat.getDrawable(this, ruta_drawable);
 
         readPictureList();

@@ -66,7 +66,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                 String line = String.format("%s;%d;%s\n",
                         it.getNom_carpeta(),
                         it.getRuta_drawable(),
-                        String.format("picture_list_%s.txt", it.getNom_carpeta()));
+                        String.format("picture_list_%s_%d.txt", it.getNom_carpeta(), it.getRuta_drawable()));
                 fos.write(line.getBytes());
             }
             fos.close();
@@ -140,7 +140,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                 // Toast.makeText(FolderListActivity.this, " " + "Click carpeta", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     public void btn_afegir (View view){
@@ -258,7 +257,9 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         total_fotos = new ArrayList<Picture>();
 
         for (int i = 0; i<llista_carpetes.size(); i++){
-            String nom = String.format("picture_list_%s.txt", llista_carpetes.get(i).getNom_carpeta());
+            String nom = String.format("picture_list_%s_%d.txt",
+                    llista_carpetes.get(i).getNom_carpeta(),
+                    llista_carpetes.get(i).getRuta_drawable());
             try {
                 FileInputStream fis = openFileInput(nom);
                 byte[] buffer = new byte[MAX_BYTES];
