@@ -46,6 +46,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -100,9 +101,10 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
-    /*private void readPictureList(){
+    private void readPictureList(){
         llista_fotos = new ArrayList<>();
         try {
+            FILENAME = String.format("picture_list_%s.txt", nom_carpeta);
             FileInputStream fis = openFileInput(FILENAME);
             byte[] buffer = new byte[MAX_BYTES];
             int nread = fis.read(buffer);
@@ -110,11 +112,11 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 String content = new String(buffer, 0, nread);
                 String[] lines = content.split("\n");
                 for (String line : lines) {
-                        String[] parts = line.split(";");
-                        llista_fotos.add(new Picture(
-                                parts[0],
-                                Double.parseDouble(parts[1]),
-                                Double.parseDouble(parts[2])));
+                    String[] parts = line.split(";");
+                    llista_fotos.add(new Picture(
+                            parts[0],
+                            Double.parseDouble(parts[1]),
+                            Double.parseDouble(parts[2])));
                 }
             }
             fis.close();
@@ -124,13 +126,13 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             Log.i("berta", "readItemList: IOEException");
             Toast.makeText(this, R.string.cannot_read, Toast.LENGTH_SHORT).show();
         }
-    }*/
+    }
 
     @Override
     protected void onStop() {
         super.onStop();
         writePictureList();
-        Toast.makeText(this, nom_carpeta, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, FILENAME, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -142,14 +144,12 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        //readPictureList();
-
         Intent acces_carpeta = getIntent();
-        Bundle bundleobject = getIntent().getExtras();
-        llista_fotos = (ArrayList<Picture>) bundleobject.getSerializable("llista fotos");
         nom_carpeta = acces_carpeta.getStringExtra("nc");
         int ruta_drawable = acces_carpeta.getIntExtra("rd", 0);
         icona_carpeta = ContextCompat.getDrawable(this, ruta_drawable);
+
+        readPictureList();
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
@@ -214,16 +214,17 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 else if (actLay.equals("mapa")){
                     btn_switch.setIcon(R.drawable.mapa);
                     actLay = "galeria";
+                    mMap.clear();
                 }
                 return true;
             case android.R.id.home:
+                onBackPressed();
                 Intent return_carpeta = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("llista fotos", llista_fotos);
                 return_carpeta.putExtras(bundle);
                 return_carpeta.putExtra("nc", nom_carpeta);
                 setResult(1, return_carpeta);
-                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);

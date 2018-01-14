@@ -10,22 +10,12 @@ public class Carpeta implements Serializable {
 
     private String nom_carpeta;
     private Drawable icona;
-    private ArrayList<Picture> llista_fotos;
     private int ruta_drawable;
 
-    public Carpeta (String nom_carpeta, Drawable icona, int ruta_drawable, ArrayList<Picture> llista_fotos){
+    public Carpeta (String nom_carpeta, Drawable icona, int ruta_drawable){
         this.nom_carpeta = nom_carpeta;
         this.icona = icona;
-        this.llista_fotos = llista_fotos;
         this.ruta_drawable = ruta_drawable;
-    }
-
-    public void afegirFoto (Picture foto){
-        llista_fotos.add(foto);
-    }
-
-    public void eliminarFoto (Picture foto){
-        llista_fotos.remove(foto);
     }
 
     public String getNom_carpeta() {
@@ -36,9 +26,7 @@ public class Carpeta implements Serializable {
         this.nom_carpeta = nom_carpeta;
     }
 
-    public Drawable getIcona() {
-        return icona;
-    }
+    public Drawable getIcona() { return icona; }
 
     public int getRuta_drawable (){
         return ruta_drawable;
@@ -48,15 +36,5 @@ public class Carpeta implements Serializable {
         this.ruta_drawable = ruta_drawable;
     }
 
-    public void setIcona(Drawable icona) {
-        this.icona = icona;
-    }
-
-    public ArrayList<Picture> getLlista_fotos() {
-        return llista_fotos;
-    }
-
-    public void setLlista_fotos(ArrayList<Picture> llista_fotos) {
-        this.llista_fotos = llista_fotos;
-    }
+    public void setIcona(Drawable icona) { this.icona = icona; }
 }

@@ -45,7 +45,6 @@ import static android.R.attr.data;
 public class FolderListActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ArrayList<Carpeta> llista_carpetes;
-    ArrayList<Picture> total_fotos;
     private FolderListActivityAdapter adapter;
     private ListView l_c, searchfolders;
     private SearchView searchView;
@@ -55,12 +54,11 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     MenuItem searchitem;
     MenuItem mapatotal;
     private String actLay = "galeria";
-    private ArrayList<Picture> llista_fotos;
-
+    ArrayList<Picture> total_fotos;
     private static final String FILENAME = "folder_list.txt";
     private static final int MAX_BYTES = 10000;
 
-    /*private void writeFolderList(){
+    private void writeFolderList(){
         try {
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_carpetes.size(); i++){
@@ -81,57 +79,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         }
     }
 
-    private void writePictureList(){
-        try {
-            for (int i = 0; i<llista_carpetes.size(); i++){
-                String file_name = String.format("%s.txt", llista_carpetes.get(i).getNom_carpeta());
-                FileOutputStream fos = openFileOutput(FILENAMEFOLDER = file_name, Context.MODE_PRIVATE);
-                for (int u = 0; u<llista_carpetes.get(i).getLlista_fotos().size(); u++) {
-                    Picture it = llista_carpetes.get(i).getLlista_fotos().get(u);
-                    String line = String.format("%s;%f;%f\n",
-                            it.getFoto(),
-                            it.getLat(),
-                            it.getLng());
-                    fos.write(line.getBytes());
-                }
-                fos.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("berta", "writeItemList: FileNotFoundException");
-            Toast.makeText(this, R.string.cannot_write, Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            Log.e("berta", "writeItemList: IEOException");
-            Toast.makeText(this, R.string.cannot_write, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private ArrayList readPictureList(String fileName){
-        llista_fotos = new ArrayList<>();
-        try {
-            FileInputStream fis = openFileInput(fileName);
-            byte[] buffer = new byte[MAX_BYTES];
-            int nread = fis.read(buffer);
-            if (nread>0) {
-                String content = new String(buffer, 0, nread);
-                String[] lines = content.split("\n");
-                for (String line : lines) {
-                    String[] parts = line.split(";");
-                    llista_fotos.add(new Picture(
-                            parts[0],
-                            Double.parseDouble(parts[1]),
-                            Double.parseDouble(parts[2])));
-                }
-            }
-            fis.close();
-        } catch (FileNotFoundException e) {
-            Log.i("berta", "readItemList: FileNotFoundException");
-        } catch (IOException e) {
-            Log.i("berta", "readItemList: IOEException");
-            Toast.makeText(this, R.string.cannot_read, Toast.LENGTH_SHORT).show();
-        }
-        return llista_fotos;
-    }
-
     private void readFolderList(){
         llista_carpetes = new ArrayList<>();
         try {
@@ -146,8 +93,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                     llista_carpetes.add(new Carpeta(
                             parts[0],
                             ContextCompat.getDrawable(this, Integer.parseInt(parts[1])),
-                            Integer.parseInt(parts[1]),
-                            readPictureList(parts[2])));
+                            Integer.parseInt(parts[1])));
                 }
             }
             fis.close();
@@ -163,16 +109,16 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     protected void onStop() {
         super.onStop();
         writeFolderList();
-        Toast.makeText(this, "Write folder list", Toast.LENGTH_SHORT).show();
-    }*/
+        //Toast.makeText(this, "Write folder list", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder_list);
 
-        /*readFolderList();
-        Toast.makeText(this, "read folder list", Toast.LENGTH_SHORT).show();*/
+        readFolderList();
+        //Toast.makeText(this, "read folder list", Toast.LENGTH_SHORT).show();
 
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -183,7 +129,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         searchfolders = (ListView) findViewById(R.id.search_folders);
 
         searchfolders.setVisibility(View.INVISIBLE);
-        llista_carpetes = new ArrayList<Carpeta>();
 
         adapter = new FolderListActivityAdapter(this, R.layout.activity_folder_list, llista_carpetes);
         l_c.setAdapter(adapter);
@@ -192,9 +137,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
                 Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("llista fotos", llista_carpetes.get(pos).getLlista_fotos());
-                accedir_carpeta.putExtras(bundle);
                 accedir_carpeta.putExtra("nc", llista_carpetes.get(pos).getNom_carpeta());
                 accedir_carpeta.putExtra("rd", llista_carpetes.get(pos).getRuta_drawable());
                 startActivityForResult(accedir_carpeta, 1);
@@ -206,9 +148,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
                 Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("llista fotos", llista_carpetes.get(pos).getLlista_fotos());
-                accedir_carpeta.putExtras(bundle);
                 accedir_carpeta.putExtra("nc", llista_carpetes.get(pos).getNom_carpeta());
                 accedir_carpeta.putExtra("rd", llista_carpetes.get(pos).getRuta_drawable());
                 accedir_carpeta.putExtra("pc", pos);
@@ -242,29 +181,12 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                             llista_carpetes.get(posicio_carpeta).setNom_carpeta(nom);
                             llista_carpetes.get(posicio_carpeta).setRuta_drawable(ruta_drawable);
                         } else {
-                            llista_carpetes.add(new Carpeta(nom, d, ruta_drawable, new ArrayList<Picture>()));
+                            llista_carpetes.add(new Carpeta(nom, d, ruta_drawable));
                         }
                     }
                     searchfolders.setVisibility(View.INVISIBLE);
                     l_c.setVisibility(View.VISIBLE);
                     adapter.notifyDataSetChanged();
-                }
-
-            case 1:
-                if (resultCode == 1) {
-                    //TODO : obtenir nom de la carpeta i llista de fotos i guardar la llista a la carpeta corresponent
-                    //TODO: Si s'aconsegueix fer aixo treure el qrite list de FolderActivity i activar el de FolderList
-                    //String la_carpeta = return_carpeta
-
-                    String nc = intent.getStringExtra("nc");
-
-                    Bundle bundleobject_llista = intent.getExtras();
-
-                    for (Carpeta c: llista_carpetes) {
-                        if (c.getNom_carpeta().equals(nc)) {
-                            c.setLlista_fotos((ArrayList<Picture>) bundleobject_llista.getSerializable("llista fotos"));
-                        }
-                    }
                 }
         }
     }
@@ -317,15 +239,16 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
 
                 return true;
             case R.id.mapatotal:
-
                 simpleViewSwitcher.showNext();
                 if (actLay.equals("galeria")){
                     mapatotal.setIcon(R.drawable.galeria);
                     actLay = "mapa";
+                    showAllPic();
                 }
                 else if (actLay.equals("mapa")){
                     mapatotal.setIcon(R.drawable.mapa);
                     actLay = "galeria";
+                    mMap.clear();
                 }
                 return true;
             default:
@@ -336,23 +259,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        total_fotos = new ArrayList<Picture>();
-
-        for (Carpeta c: llista_carpetes){
-            total_fotos.addAll(c.getLlista_fotos());
-        }
-
-        if (!total_fotos.isEmpty()) {
-            for (int i = 0; i < total_fotos.size(); i++) {
-                addMarker(total_fotos.get(i));
-            }
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-                            total_fotos.get(total_fotos.size() - 1).getLat(),
-                            total_fotos.get(total_fotos.size() - 1).getLng()),
-                    5.0f));
-        }
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -366,6 +272,47 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                 return true;
             }
         });
+    }
+
+    private void showAllPic (){
+        total_fotos = new ArrayList<Picture>();
+
+        for (int i = 0; i<llista_carpetes.size(); i++){
+            String nom = String.format("picture_list_%s.txt", llista_carpetes.get(i).getNom_carpeta());
+            try {
+                FileInputStream fis = openFileInput(nom);
+                byte[] buffer = new byte[MAX_BYTES];
+                int nread = fis.read(buffer);
+                if (nread>0) {
+                    String content = new String(buffer, 0, nread);
+                    String[] lines = content.split("\n");
+                    for (String line : lines) {
+                        String[] parts = line.split(";");
+                        total_fotos.add(new Picture(
+                                parts[0],
+                                Double.parseDouble(parts[1]),
+                                Double.parseDouble(parts[2])));
+                    }
+                }
+                fis.close();
+            } catch (FileNotFoundException e) {
+                Log.i("berta", "readItemList: FileNotFoundException");
+            } catch (IOException e) {
+                Log.i("berta", "readItemList: IOEException");
+                Toast.makeText(this, R.string.cannot_read, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (!total_fotos.isEmpty()) {
+            for (int i = 0; i<total_fotos.size(); i++) {
+                addMarker(total_fotos.get(i));
+            }
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
+                            total_fotos.get(total_fotos.size() - 1).getLat(),
+                            total_fotos.get(total_fotos.size() - 1).getLng()),
+                    8.0f));
+        }
     }
 
     private void addMarker(Picture pic){
@@ -385,7 +332,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     //TODO: - 3 puntets
-    //TODO: - Guardar tot en llistes
+    //TODO: - eliminar txt al eliminar carpeta
     //TODO: - Personalitzar actionbar
     //TODO: - Fer que el boto afegir carpeta no es mogui quan passes a mode cerca
     //TODO: - DragList V18
