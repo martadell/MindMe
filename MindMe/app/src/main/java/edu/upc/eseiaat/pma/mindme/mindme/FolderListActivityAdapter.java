@@ -100,10 +100,10 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements 
         return result;
     }
 
-    public void editar_accio (int position){
+    public void editar_accio (final int position){
         Intent intent = new Intent(getContext(), EditFolderActivity.class);
-        intent.putExtra("nom carpeta", c.getNom_carpeta());
-        intent.putExtra("id drawable", c.getRuta_drawable());
+        intent.putExtra("nom carpeta", carpetes_originals.get(position).getNom_carpeta());
+        intent.putExtra("id drawable", carpetes_originals.get(position).getRuta_drawable());
         intent.putExtra("posicio carpeta", position);
         ((Activity) getContext()).startActivityForResult(intent, 0);
     }
@@ -171,6 +171,5 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements 
             carpetes_originals = (ArrayList<Carpeta>) results.values;
             notifyDataSetChanged();
         }
-
     }
 }

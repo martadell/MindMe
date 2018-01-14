@@ -194,7 +194,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                         return false;
                     }
                 });
-
                 return true;
             case R.id.mapatotal:
                 simpleViewSwitcher.showNext();
@@ -292,8 +291,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     //TODO: - DragList V18
-    //TODO: - Traduir a altres idiomes
     //TODO: - Posar-ho tot per a que es vegi maco al mobil
-    //TODO: - Icona a la actionbar
-    //TODO: - treure boto afegir del mode cerca
+    //TODO: - Icona a la actionbar (nomes si sobra temps)
+    //TODO: - treure boto afegir del mode cerca (nomes si sobra temps)
 }

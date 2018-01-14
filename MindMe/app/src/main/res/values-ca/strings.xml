@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MindMe</string>
 
     <!-- EDITFOLDERACTIVITY -->
     <string name="label_nom">Nom</string>
     <string name="label_categoria">Categoria</string>
     <string name="action_search">Cerca...</string>
     <string name="confirmation">Confirmació</string>
-    <string name="mess">Vol eliminar</string>
+    <string name="mess">Està segur que vol eliminar</string>
     <string name="cancel">Cancelar</string>
 
     <array name="llistacategories">
@@ -23,9 +22,9 @@
         <item>Roba</item>
         <item>Transport</item>
     </array>
-    <string name="edit">Edita</string>
-    <string name="delete">Elimina</string>
-    <string name="confirmationmessage">Està segur que vol eliminar la foto?</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="confirmationmessage">Està segur que vol eliminar aquesta foto?</string>
     <string name="cannot_read">No es pot llegir la llista</string>
-    <string name="cannot_write">"No es poden escriure els String "</string>
+    <string name="cannot_write">No es pot escriure la llista</string>
 </resources>

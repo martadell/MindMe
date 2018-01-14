@@ -14,7 +14,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -164,7 +163,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View item, int pos, long id) {
                 maybeRemoveItem(pos);
-                return false;
+                return true;
             }
         });
     }

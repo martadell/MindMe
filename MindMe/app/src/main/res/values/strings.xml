@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">MindMe</string>
+    <string name="app_name" translatable="false">MindMe</string>
     <string name="google_maps_key" translatable="false">AIzaSyDuKRXv4107ZSIKfMT7wlmqbaBWQTnQx34</string>
-    <string name="cannot_write">String couldn\'t be written</string>
+    <string name="cannot_write">List couldn\'t be written</string>
     <string name="cannot_read">List couldn\'t be read</string>
 
     <!-- EDITFOLDERACTIVITY -->
@@ -11,8 +11,8 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="confirmation">Confirmation</string>
-    <string name="confirmationmessage">Are you sure you want to delete the picture?</string>
-    <string name="mess">Are you sure?</string>
+    <string name="confirmationmessage">Are you sure you want to delete this picture?</string>
+    <string name="mess">Are you sure you want to delete</string>
     <string name="cancel">Cancel</string>
 
     <array name="llistacategories">
