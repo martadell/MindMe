@@ -141,7 +141,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
             case 0:
-                if (resultCode == 0) {
+                if (resultCode == RESULT_OK) {
 
                     String nom = intent.getStringExtra("nom carpeta");
                     int ruta_drawable = intent.getIntExtra("ruta drawable", 0);

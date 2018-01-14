@@ -94,8 +94,8 @@ public class EditFolderActivity extends AppCompatActivity {
         llistacategories.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> parent,
-                                               android.view.View v, int position, long id) {
-                        p = position;
+                           android.view.View v, int position, long id) {
+                                p = position;
                     }
 
                     public void onNothingSelected(AdapterView<?> parent) {
@@ -136,12 +136,11 @@ public class EditFolderActivity extends AppCompatActivity {
         afegeix.putExtra("nom carpeta", nc);
         afegeix.putExtra("posicio carpeta", posicio_carpeta);
         afegeix.putExtra("ruta drawable", imgs[p]);
-        setResult(0, afegeix);
+        setResult(RESULT_OK, afegeix);
         finish();
     }
 
     public void cancel (View view){
-
         finish();
     }
 
