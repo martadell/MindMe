@@ -46,7 +46,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
 
     private ArrayList<Carpeta> llista_carpetes;
     private FolderListActivityAdapter adapter;
-    private ListView l_c, searchfolders;
+    private ListView l_c;
     private SearchView searchView;
     private SearchView mapa;
     private GoogleMap mMap;
@@ -126,9 +126,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
 
         l_c = (ListView) findViewById(R.id.list_folders);
-        searchfolders = (ListView) findViewById(R.id.search_folders);
-
-        searchfolders.setVisibility(View.INVISIBLE);
 
         adapter = new FolderListActivityAdapter(this, R.layout.activity_folder_list, llista_carpetes);
         l_c.setAdapter(adapter);
@@ -141,18 +138,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                 accedir_carpeta.putExtra("rd", llista_carpetes.get(pos).getRuta_drawable());
                 startActivityForResult(accedir_carpeta, 1);
                 // Toast.makeText(FolderListActivity.this, " " + "Click carpeta", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        searchfolders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
-                Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
-                accedir_carpeta.putExtra("nc", llista_carpetes.get(pos).getNom_carpeta());
-                accedir_carpeta.putExtra("rd", llista_carpetes.get(pos).getRuta_drawable());
-                accedir_carpeta.putExtra("pc", pos);
-                startActivityForResult(accedir_carpeta, 1);
-                //Toast.makeText(FolderListActivity.this, " " + "Click carpeta search", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -184,8 +169,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                             llista_carpetes.add(new Carpeta(nom, d, ruta_drawable));
                         }
                     }
-                    searchfolders.setVisibility(View.INVISIBLE);
-                    l_c.setVisibility(View.VISIBLE);
                     adapter.notifyDataSetChanged();
                 }
         }
@@ -220,10 +203,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                     @Override
                     public boolean onQueryTextChange(String newText) {
 
-                        l_c.setVisibility(View.INVISIBLE);
-                        searchfolders.setVisibility(View.VISIBLE);
-
-                        ArrayList<Carpeta> filtered = new ArrayList<Carpeta>();
+                        /*ArrayList<Carpeta> filtered = new ArrayList<Carpeta>();
 
                         FolderListActivityAdapter searchadapter = new FolderListActivityAdapter(getApplicationContext(), R.layout.activity_folder_list, filtered);
                         searchfolders.setAdapter(searchadapter);
@@ -232,7 +212,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                             if (c.getNom_carpeta().contains(newText)) {
                                 filtered.add(c);
                             }
-                        }
+                        }*/
                         return true;
                     }
                 });

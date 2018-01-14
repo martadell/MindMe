@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MindMe.iml" filepath="$PROJECT_DIR$/MindMe.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../../Marta/Documents/AndroidStudioProjects/MindMe/MindMe/MindMe.iml" filepath="$PROJECT_DIR$/../../../../Marta/Documents/AndroidStudioProjects/MindMe/MindMe/MindMe.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MindMe.iml" filepath="$PROJECT_DIR$/MindMe.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../../Marta/Documents/AndroidStudioProjects/MindMe/MindMe/app/app.iml" filepath="$PROJECT_DIR$/../../../../Marta/Documents/AndroidStudioProjects/MindMe/MindMe/app/app.iml" />
     </modules>

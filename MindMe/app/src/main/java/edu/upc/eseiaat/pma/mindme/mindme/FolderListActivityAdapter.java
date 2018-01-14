@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -29,14 +31,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> {
+public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements Filterable{
 
-    private List<Carpeta> carpetes;
+    private List<Carpeta>  carpetes_originals;
     private Carpeta c;
+    private NewFilter filter;
+
 
     public FolderListActivityAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Carpeta> objects) {
         super(context, resource, objects);
-        carpetes = objects;
+        carpetes_originals = objects;
     }
 
     @Override
@@ -108,11 +112,57 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> {
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                carpetes.remove(position);
-                FolderListActivityAdapter.super.notifyDataSetChanged();
+                carpetes_originals.remove(position);
+                notifyDataSetChanged();
             }
         });
         builder.setNegativeButton(R.string.cancel, null);
         builder.create().show();
+    }
+
+    public Filter getFilter (){
+
+       if (filter == null){
+           filter = new NewFilter();
+       }
+       return filter;
+    }
+
+    private class NewFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            FilterResults results = new FilterResults();
+
+            if (constraint != null && constraint.length() > 0) {
+
+                constraint = constraint.toString().toUpperCase();
+
+                List<Carpeta> filtered = new ArrayList<Carpeta>();
+
+                for (int i=0; i<carpetes_originals.size();i++) {
+                    if (carpetes_originals.get(i).getNom_carpeta().toUpperCase().contains(constraint)) {
+
+                    }
+                }
+
+                results.count = filtered.size();
+                results.values = filtered;
+
+
+            } else {
+                results.count = carpetes_originals.size();
+                results.values = carpetes_originals;
+            }
+            return results;
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            carpetes_originals = (ArrayList<Carpeta>) results.values;
+            notifyDataSetChanged();
+        }
+
     }
 }

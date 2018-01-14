@@ -52,7 +52,7 @@
         android:textSize="18sp" />
 
     <ImageButton
-        android:id="@+id/btn_wrong"
+        android:id="@+id/btn_afegircarpeta"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
@@ -69,7 +69,7 @@
         android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/btn_wrong"
+        android:layout_alignTop="@+id/btn_afegircarpeta"
         android:background="@drawable/requadre"
         android:onClick="ok"
         android:scaleType="fitCenter"
