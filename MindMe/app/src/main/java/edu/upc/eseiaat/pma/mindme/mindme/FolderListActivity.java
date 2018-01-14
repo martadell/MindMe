@@ -304,7 +304,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
 
     //TODO: - search
     //TODO: - Personalitzar actionbar posar-hi nom carpeta
-    //TODO: - Fer que el boto afegir carpeta no es mogui quan passes a mode cerca
     //TODO: - DragList V18
     //TODO: - Traduir a altres idiomes
     //TODO: - Posar-ho tot per a que es vegi maco al mobil
