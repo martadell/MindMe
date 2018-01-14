@@ -48,7 +48,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     private static final String FILENAME = "folder_list.txt";
     private static final int MAX_BYTES = 10000;
 
-    private void writeFolderList(){
+  private void writeFolderList(){
         try {
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_carpetes.size(); i++){
@@ -192,6 +192,8 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                     @Override
                     public boolean onQueryTextChange(String newText) {
 
+                        adapter.getFilter().filter(newText);
+
                         /*ArrayList<Carpeta> filtered = new ArrayList<Carpeta>();
 
                         FolderListActivityAdapter searchadapter = new FolderListActivityAdapter(getApplicationContext(), R.layout.activity_folder_list, filtered);
@@ -202,7 +204,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                                 filtered.add(c);
                             }
                         }*/
-                        return true;
+                        return false;
                     }
                 });
 
