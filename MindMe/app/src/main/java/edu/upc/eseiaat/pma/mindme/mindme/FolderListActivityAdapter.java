@@ -33,7 +33,7 @@ import java.util.Locale;
 
 public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements Filterable{
 
-    private List<Carpeta>  carpetes_originals;
+    private List<Carpeta> carpetes_originals;
     private Carpeta c;
     private NewFilter filter;
 
@@ -78,6 +78,10 @@ public class FolderListActivityAdapter extends ArrayAdapter<Carpeta> implements 
                                     return true;
                                 case R.id.elimina:
                                     eliminar_accio(position);
+                                    String txt = String.format("picture_list_%s_%d.txt",
+                                            c.getNom_carpeta(), c.getRuta_drawable());
+                                    getContext().deleteFile(txt);
+
                                     return true;
                                 default:
                                     return false;
