@@ -21,11 +21,6 @@ public class DynamicEventsHelper extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public boolean isItemViewSwipeEnabled() {
-        return false;
-    }
-
-    @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
 
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
@@ -41,12 +36,11 @@ public class DynamicEventsHelper extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        callback.removeItem(viewHolder.getAdapterPosition());
+        //no el fem servir
     }
 
     public interface DynamicEventsCallback {
         void onItemMove(int initialPosition, int finalPosition);
-        void removeItem(int position);
     }
 
 

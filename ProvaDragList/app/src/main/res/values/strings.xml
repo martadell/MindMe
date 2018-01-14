@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">ProvaDragList</string>
-</resources>
+
+        <string name="google_maps_key">AIzaSyDuKRXv4107ZSIKfMT7wlmqbaBWQTnQx34</string>
+        <string name="cannot_write">String could not be written</string>
+        <string name="cannot_read">List could not be read</string>
+
+        <!-- EDITFOLDERACTIVITY -->
+        <string name="label_categoria">Category</string>
+        <string name="label_nom">Name</string>
+        <string name="action_search">Search...</string>
+        <string name="edit">Edit</string>
+        <string name="delete">Delete</string>
+        <string name="confirmation">Confirmation</string>
+        <string name="confirmationmessage">Are you sure you want to delete the picture?</string>
+        <string name="mess">Are you sure?</string>
+        <string name="cancel">Cancel</string>
+
+        <array name="llistacategories">
+
+            <item>Others</item>
+            <item>Animals</item>
+            <item>Electronics</item>
+            <item>Books</item>
+            <item>Places</item>
+            <item>Food</item>
+            <item>Music</item>
+            <item>Gifts</item>
+            <item>Clothes</item>
+            <item>Transport</item>
+        </array>
+
+    </resources>

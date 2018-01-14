@@ -6,9 +6,12 @@ package edu.upc.eseiaat.pma.mindme.provadraglist;
 
 public class DragListElement {
     private String nom;
-
-        //variable necessària per saber la posició de l'item al recycleview
     private int posicio;
+
+    public DragListElement (String nom, int posicio) {
+        this.nom = nom;
+        this.posicio = posicio;
+    }
 
     public String getNom() {
         return nom;

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class DragListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -21,7 +20,7 @@ public class DragListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private ItemTouchHelper androidItemTouchHelper;
 
-    private List<DragListElement> mList;
+    private ArrayList<DragListElement> mList = new ArrayList();
     private final Activity mActivity;
 
     public DragListAdapter(Activity mActivity, ItemTouchHelper androidItemTouchHelper) {
@@ -54,25 +53,13 @@ public class DragListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mList.size();
     }
 
-
     public void update() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mList = DragListDataBase.getInstancia(mActivity).getElements();
-                Collections.sort(mList, new DragListComparator().ordenarPerPosicio);
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
-            }
-        }).start();
+        mList = DragListActivity.getLlista_elements();
+        Collections.sort(mList, new DragListComparator().ordenarPerPosicio);
+        notifyDataSetChanged();
     }
 
     public void onItemMove(final int initialPosition, final int finalPosition) {
-
 
         if (initialPosition < mList.size() && finalPosition < mList.size()) {
 
@@ -102,9 +89,6 @@ public class DragListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 mElement1.setPosicio(finalPosition);
                 mElement2.setPosicio(initialPosition);
-
-                DragListDataBase.getInstancia(mActivity).updateElement(mElement1);
-                DragListDataBase.getInstancia(mActivity).updateElement(mElement2);
 
             }
         }).start();
