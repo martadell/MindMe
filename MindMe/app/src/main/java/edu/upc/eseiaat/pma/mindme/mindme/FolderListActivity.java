@@ -1,21 +1,14 @@
 package edu.upc.eseiaat.pma.mindme.mindme;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntegerRes;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,13 +31,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
-import static android.R.attr.data;
 
 public class FolderListActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ArrayList<Carpeta> llista_carpetes;
+    private ArrayList<Picture> total_fotos;
     private FolderListActivityAdapter adapter;
     private ListView l_c;
     private SearchView searchView;
@@ -54,7 +45,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     MenuItem searchitem;
     MenuItem mapatotal;
     private String actLay = "galeria";
-    ArrayList<Picture> total_fotos;
     private static final String FILENAME = "folder_list.txt";
     private static final int MAX_BYTES = 10000;
 
@@ -312,9 +302,8 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         startActivity(bigImage);
     }
 
-    //TODO: - 3 puntets
-    //TODO: - eliminar txt al eliminar carpeta
-    //TODO: - Personalitzar actionbar
+    //TODO: - search
+    //TODO: - Personalitzar actionbar posar-hi nom carpeta
     //TODO: - Fer que el boto afegir carpeta no es mogui quan passes a mode cerca
     //TODO: - DragList V18
     //TODO: - Traduir a altres idiomes

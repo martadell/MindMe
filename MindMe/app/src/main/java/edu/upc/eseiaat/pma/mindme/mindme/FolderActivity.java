@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
@@ -40,19 +37,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import static edu.upc.eseiaat.pma.mindme.mindme.R.id.btn_switch;
-import static edu.upc.eseiaat.pma.mindme.mindme.R.id.mapatotal;
 
 public class FolderActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -65,18 +57,18 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final int REQUEST_LOCATION = 99;
     private static final int CAMERA_REQUEST = 10;
     private static final int MAX_BYTES = 10000;
-    int ruta_drawable;
+    private int ruta_drawable;
     private PicturesAdapter adapter;
     private String pictureName;
     private String mCurrentPhotoPath;
     private String nom_carpeta;
-    private Drawable icona_carpeta;
+    private String actLay = "galeria";
     private static String FILENAME;
+    private Drawable icona_carpeta;
     private Uri pictureUri;
     LocationManager locationManager;
     Location location;
     File folder;
-    private String actLay = "galeria";
     MenuItem btn_switch;
     private SearchView boto;
 
