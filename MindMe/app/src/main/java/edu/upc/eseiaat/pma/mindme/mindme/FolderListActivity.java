@@ -163,7 +163,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         }
     }
 
-    //  @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.search_menu, menu);
@@ -179,7 +179,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.menuSearch:
 
@@ -191,19 +190,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
 
                     @Override
                     public boolean onQueryTextChange(String newText) {
-
                         adapter.getFilter().filter(newText);
-
-                        /*ArrayList<Carpeta> filtered = new ArrayList<Carpeta>();
-
-                        FolderListActivityAdapter searchadapter = new FolderListActivityAdapter(getApplicationContext(), R.layout.activity_folder_list, filtered);
-                        searchfolders.setAdapter(searchadapter);
-
-                        for (Carpeta c: llista_carpetes) {
-                            if (c.getNom_carpeta().contains(newText)) {
-                                filtered.add(c);
-                            }
-                        }*/
                         return false;
                     }
                 });

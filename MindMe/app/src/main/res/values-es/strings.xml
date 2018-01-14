@@ -28,4 +28,5 @@
     <string name="delete">Eliminar</string>
     <string name="confirmationmessage">¿Está seguro que quiere eliminar la foto?</string>
     <string name="cannot_read">No se puede leer la lista</string>
+    <string name="cannot_write">No se pueden leer los String</string>
 </resources>
