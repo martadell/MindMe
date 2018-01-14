@@ -63,13 +63,13 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     private double lon;
     private static final int REQUEST_LOCATION = 99;
     private static final int CAMERA_REQUEST = 10;
-    private static final int MAX_BYTES = 8000;
+    private static final int MAX_BYTES = 10000;
     private PicturesAdapter adapter;
     private String pictureName;
     private String mCurrentPhotoPath;
     private String nom_carpeta;
     private Drawable icona_carpeta;
-    private static final String FILENAME = "picture_list.txt";
+    private static String FILENAME;
     private Uri pictureUri;
     LocationManager locationManager;
     Location location;
@@ -80,6 +80,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void writePictureList(){
         try {
+            FILENAME = String.format("picture_list_%s.txt", nom_carpeta);
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_fotos.size(); i++){
                 Picture it = llista_fotos.get(i);
@@ -99,7 +100,7 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
-    private void readPictureList(){
+    /*private void readPictureList(){
         llista_fotos = new ArrayList<>();
         try {
             FileInputStream fis = openFileInput(FILENAME);
@@ -123,12 +124,13 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             Log.i("berta", "readItemList: IOEException");
             Toast.makeText(this, R.string.cannot_read, Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     @Override
     protected void onStop() {
         super.onStop();
         writePictureList();
+        Toast.makeText(this, nom_carpeta, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -140,14 +142,14 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        readPictureList();
+        //readPictureList();
 
         Intent acces_carpeta = getIntent();
         Bundle bundleobject = getIntent().getExtras();
         llista_fotos = (ArrayList<Picture>) bundleobject.getSerializable("llista fotos");
         nom_carpeta = acces_carpeta.getStringExtra("nom carpeta");
         int ruta_drawable = acces_carpeta.getIntExtra("ruta drawable", 0);
-        icona_carpeta = ContextCompat.getDrawable(this, ruta_drawable);;
+        icona_carpeta = ContextCompat.getDrawable(this, ruta_drawable);
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
@@ -215,6 +217,12 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 }
                 return true;
             case android.R.id.home:
+                Intent return_carpeta = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("llista fotos", llista_fotos);
+                return_carpeta.putExtras(bundle);
+                return_carpeta.putExtra("nom carpeta", nom_carpeta);
+                setResult(RESULT_OK, return_carpeta);
                 onBackPressed();
                 return true;
         }

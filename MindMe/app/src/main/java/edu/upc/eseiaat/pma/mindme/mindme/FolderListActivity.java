@@ -7,11 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IntegerRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,8 +33,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.attr.data;
 
 public class FolderListActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -47,11 +55,124 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     MenuItem searchitem;
     MenuItem mapatotal;
     private String actLay = "galeria";
+    private ArrayList<Picture> llista_fotos;
+
+    private static final String FILENAME = "folder_list.txt";
+    private static final int MAX_BYTES = 10000;
+
+    private void writeFolderList(){
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            for (int i = 0; i<llista_carpetes.size(); i++){
+                Carpeta it = llista_carpetes.get(i);
+                String line = String.format("%s;%d;%s\n",
+                        it.getNom_carpeta(),
+                        it.getRuta_drawable(),
+                        String.format("picture_list_%s.txt", it.getNom_carpeta()));
+                fos.write(line.getBytes());
+            }
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.e("berta", "writeItemList: FileNotFoundException");
+            Toast.makeText(this, R.string.cannot_write, Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Log.e("berta", "writeItemList: IEOException");
+            Toast.makeText(this, R.string.cannot_write, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /*private void writePictureList(){
+        try {
+            for (int i = 0; i<llista_carpetes.size(); i++){
+                String file_name = String.format("%s.txt", llista_carpetes.get(i).getNom_carpeta());
+                FileOutputStream fos = openFileOutput(FILENAMEFOLDER = file_name, Context.MODE_PRIVATE);
+                for (int u = 0; u<llista_carpetes.get(i).getLlista_fotos().size(); u++) {
+                    Picture it = llista_carpetes.get(i).getLlista_fotos().get(u);
+                    String line = String.format("%s;%f;%f\n",
+                            it.getFoto(),
+                            it.getLat(),
+                            it.getLng());
+                    fos.write(line.getBytes());
+                }
+                fos.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("berta", "writeItemList: FileNotFoundException");
+            Toast.makeText(this, R.string.cannot_write, Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Log.e("berta", "writeItemList: IEOException");
+            Toast.makeText(this, R.string.cannot_write, Toast.LENGTH_SHORT).show();
+        }
+    }*/
+
+    private ArrayList readPictureList(String fileName){
+        llista_fotos = new ArrayList<>();
+        try {
+            FileInputStream fis = openFileInput(fileName);
+            byte[] buffer = new byte[MAX_BYTES];
+            int nread = fis.read(buffer);
+            if (nread>0) {
+                String content = new String(buffer, 0, nread);
+                String[] lines = content.split("\n");
+                for (String line : lines) {
+                    String[] parts = line.split(";");
+                    llista_fotos.add(new Picture(
+                            parts[0],
+                            Double.parseDouble(parts[1]),
+                            Double.parseDouble(parts[2])));
+                }
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            Log.i("berta", "readItemList: FileNotFoundException");
+        } catch (IOException e) {
+            Log.i("berta", "readItemList: IOEException");
+            Toast.makeText(this, R.string.cannot_read, Toast.LENGTH_SHORT).show();
+        }
+        return llista_fotos;
+    }
+
+    private void readFolderList(){
+        llista_carpetes = new ArrayList<>();
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            byte[] buffer = new byte[MAX_BYTES];
+            int nread = fis.read(buffer);
+            if (nread>0) {
+                String content = new String(buffer, 0, nread);
+                String[] lines = content.split("\n");
+                for (String line : lines) {
+                    String[] parts = line.split(";");
+                    llista_carpetes.add(new Carpeta(
+                            parts[0],
+                            ContextCompat.getDrawable(this, Integer.parseInt(parts[1])),
+                            Integer.parseInt(parts[1]),
+                            readPictureList(parts[2])));
+                }
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            Log.i("berta", "readItemList: FileNotFoundException");
+        } catch (IOException e) {
+            Log.i("berta", "readItemList: IOEException");
+            Toast.makeText(this, R.string.cannot_read, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        writeFolderList();
+        Toast.makeText(this, "Write folder list", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder_list);
+
+        readFolderList();
+        Toast.makeText(this, "read folder list", Toast.LENGTH_SHORT).show();
 
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -62,7 +183,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         searchfolders = (ListView) findViewById(R.id.search_folders);
 
         searchfolders.setVisibility(View.INVISIBLE);
-        llista_carpetes = new ArrayList<Carpeta>();
+        //llista_carpetes = new ArrayList<Carpeta>();
 
         adapter = new FolderListActivityAdapter(this, R.layout.activity_folder_list, llista_carpetes);
         l_c.setAdapter(adapter);
@@ -70,7 +191,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         l_c.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
-                 Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
+            Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("llista fotos", llista_carpetes.get(pos).getLlista_fotos());
                 accedir_carpeta.putExtras(bundle);
@@ -84,7 +205,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         searchfolders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
-              Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
+            Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("llista fotos", llista_carpetes.get(pos).getLlista_fotos());
                 accedir_carpeta.putExtras(bundle);
@@ -126,6 +247,13 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                     searchfolders.setVisibility(View.INVISIBLE);
                     l_c.setVisibility(View.VISIBLE);
                     adapter.notifyDataSetChanged();
+                }
+
+            case 1:
+                if (resultCode == AppCompatActivity.RESULT_OK) {
+                    //TODO : obtenir nom de la carpeta i llista de fotos i guardar la llista a la carpeta corresponent
+                    //TODO: Si s'aconsegueix fer aixo treure el qrite list de FolderActivity i activar el de FolderList
+                    //String la_carpeta = return_carpeta
                 }
         }
     }
