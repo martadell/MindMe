@@ -102,7 +102,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     protected void onStop() {
         super.onStop();
         writeFolderList();
-        //Toast.makeText(this, "Write folder list", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -111,7 +110,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         setContentView(R.layout.activity_folder_list);
 
         readFolderList();
-        //Toast.makeText(this, "read folder list", Toast.LENGTH_SHORT).show();
 
         simpleViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -131,7 +129,6 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                 accedir_carpeta.putExtra("nc", llista_carpetes.get(pos).getNom_carpeta());
                 accedir_carpeta.putExtra("rd", llista_carpetes.get(pos).getRuta_drawable());
                 startActivity(accedir_carpeta);
-                // Toast.makeText(FolderListActivity.this, " " + "Click carpeta", Toast.LENGTH_SHORT).show();
             }
         });
     }
