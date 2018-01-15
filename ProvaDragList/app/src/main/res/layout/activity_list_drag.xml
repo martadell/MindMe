@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10dp"
-    android:paddingEnd="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingStart="10dp"
-    android:paddingTop="10dp"
     tools:context="edu.upc.eseiaat.pma.mindme.provadraglist.DragListActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/edit_text"
-        tools:layout_editor_absoluteX="10dp" />
+        android:id="@+id/list_folders"
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
 
-    <Button
-        android:id="@+id/btn_plus"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="btn_add"
-        android:text="+" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
-    <EditText
-        android:id="@+id/edit_text"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/btn_plus"
-        android:hint="..."
-        android:inputType="text"
-        android:text="" />
-
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/btn_afegircarpeta"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@+id/list_folders"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/requadre"
+            android:onClick="btn_afegir"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/list_folders"
+            app:layout_constraintRight_toRightOf="@+id/list_folders"
+            app:srcCompat="@drawable/afegir" />
+    </RelativeLayout>
