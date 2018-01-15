@@ -187,6 +187,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
             case R.id.menuSearch:
 
                 btn_add.setVisibility(View.GONE);
+                mapatotal.setVisible(false);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -205,6 +206,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                     public void onViewDetachedFromWindow(View arg0) {
                         // search was detached/closed
                         btn_add.setVisibility(View.VISIBLE);
+                        mapatotal.setVisible(true);
                     }
 
                     @Override
