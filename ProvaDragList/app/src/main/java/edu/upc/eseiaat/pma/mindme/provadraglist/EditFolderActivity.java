@@ -1,37 +1,36 @@
 package edu.upc.eseiaat.pma.mindme.provadraglist;
 
 import android.app.ActionBar;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-//import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
+        import android.content.Intent;
+        import android.content.res.Resources;
+        import android.content.res.TypedArray;
+        import android.graphics.Bitmap;
+        import android.graphics.BitmapFactory;
+        import android.graphics.drawable.BitmapDrawable;
+        import android.graphics.drawable.Drawable;
+        import android.support.v4.content.ContextCompat;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.view.View;
+        import android.widget.AdapterView;
+        import android.widget.ArrayAdapter;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.ImageButton;
+        import android.widget.ListView;
+        import android.widget.Spinner;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+        import java.io.ByteArrayOutputStream;
+        import java.io.Serializable;
+        import java.lang.reflect.Array;
+        import java.util.ArrayList;
+        import java.util.Collections;
+        import java.util.Comparator;
 
-import static android.support.v7.appcompat.R.styleable.MenuItem;
+        import static android.support.v7.appcompat.R.styleable.MenuItem;
 
 public class EditFolderActivity extends AppCompatActivity {
 
@@ -103,7 +102,7 @@ public class EditFolderActivity extends AppCompatActivity {
                     }
                 });
 
-        //APLIQUEM INTENT I AGAFEM INFORMACIÓ
+        //APLIQUEM INTENT I AGAFEM INFORMACIÃ“
 
 
         nom_carpeta.setText(nom);
@@ -136,12 +135,11 @@ public class EditFolderActivity extends AppCompatActivity {
         afegeix.putExtra("nom carpeta", nc);
         afegeix.putExtra("posicio carpeta", posicio_carpeta);
         afegeix.putExtra("ruta drawable", imgs[p]);
-        setResult(0, afegeix);
+        setResult(RESULT_OK, afegeix);
         finish();
     }
 
     public void cancel (View view){
-
         finish();
     }
 
