@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -47,8 +49,9 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     private String actLay = "galeria";
     private static final String FILENAME = "folder_list.txt";
     private static final int MAX_BYTES = 10000;
+    private ImageButton btn_add;
 
-  private void writeFolderList(){
+    private void writeFolderList(){
         try {
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             for (int i = 0; i<llista_carpetes.size(); i++){
@@ -116,6 +119,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
 
         l_c = (ListView) findViewById(R.id.list_folders);
+        btn_add =(ImageButton) findViewById(R.id.btn_afegircarpeta);
 
         adapter = new FolderListActivityAdapter(this, R.layout.activity_folder_list, llista_carpetes);
         l_c.setAdapter(adapter);
@@ -182,6 +186,7 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         switch (item.getItemId()) {
             case R.id.menuSearch:
 
+                btn_add.setVisibility(View.GONE);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -194,8 +199,22 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                         return false;
                     }
                 });
+                searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+
+                    @Override
+                    public void onViewDetachedFromWindow(View arg0) {
+                        // search was detached/closed
+                        btn_add.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onViewAttachedToWindow(View arg0) {
+                        // search was opened
+                    }
+                });
                 return true;
             case R.id.mapatotal:
+
                 simpleViewSwitcher.showNext();
                 if (actLay.equals("galeria")){
                     mapatotal.setIcon(R.drawable.galeria);
@@ -291,7 +310,5 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     //TODO: - DragList V18
-    //TODO: - Posar-ho tot per a que es vegi maco al mobil
     //TODO: - Icona a la actionbar (nomes si sobra temps)
-    //TODO: - treure boto afegir del mode cerca (nomes si sobra temps)
 }
