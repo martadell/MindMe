@@ -198,14 +198,12 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                     }
                 });
                 searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-
                     @Override
                     public void onViewDetachedFromWindow(View arg0) {
                         // search was detached/closed
                         btn_add.setVisibility(View.VISIBLE);
                         mapatotal.setVisible(true);
                     }
-
                     @Override
                     public void onViewAttachedToWindow(View arg0) {
                         // search was opened
@@ -217,11 +215,13 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                 simpleViewSwitcher.showNext();
                 if (actLay.equals("galeria")){
                     mapatotal.setIcon(R.drawable.galeria);
+                    searchitem.setVisible(false);
                     actLay = "mapa";
                     showAllPic();
                 }
                 else if (actLay.equals("mapa")){
                     mapatotal.setIcon(R.drawable.mapa);
+                    searchitem.setVisible(true);
                     actLay = "galeria";
                     mMap.clear();
                 }
