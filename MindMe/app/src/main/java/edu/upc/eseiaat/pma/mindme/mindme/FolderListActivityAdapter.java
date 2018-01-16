@@ -174,33 +174,14 @@ public class FolderListActivityAdapter extends RecyclerView.Adapter<RecyclerView
         if (viewHolder instanceof viewHolder) {
             final viewHolder holder = (viewHolder) viewHolder;
 
-            Carpeta mElement = carpetes_originals.get(i);
-            final int position = i;
+            Carpeta carpeta = carpetes_originals.get(i);
 
             holder.image.setImageDrawable(
                     ContextCompat.getDrawable(
                             getContext(),
-                            Integer.parseInt(String.valueOf(mElement.getRuta_drawable()))));
-            holder.nom_carpeta.setText(mElement.getNom_carpeta());
-            holder.btn_opcions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+                            Integer.parseInt(String.valueOf(carpeta.getRuta_drawable()))));
+            holder.nom_carpeta.setText(carpeta.getNom_carpeta());
 
-                    holder.popupMenu = new PopupMenu(view.getContext(), holder.btn_opcions);
-                    holder.popupMenu.getMenuInflater().inflate(R.menu.popup_menuopcions, holder.popupMenu.getMenu());
-
-                    holder.popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            return itemClick(menuItem, position);
-
-                        }
-                    });
-
-                    holder.popupMenu.show();
-
-                }
-            });
         }
     }
 
@@ -228,15 +209,14 @@ public class FolderListActivityAdapter extends RecyclerView.Adapter<RecyclerView
         public ImageView image;
         public final ImageButton btn_opcions;
         public PopupMenu popupMenu;
-        public int position;
 
         public viewHolder(View v) {
             super(v);
             image = v.findViewById(R.id.icona);
             nom_carpeta = v.findViewById(R.id.nom_carpeta);
             btn_opcions = v.findViewById(R.id.btn_opcions);
-            position = getLayoutPosition();
 
+            //Clic element
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -252,6 +232,28 @@ public class FolderListActivityAdapter extends RecyclerView.Adapter<RecyclerView
                     }
                 }
 
+            });
+
+            //Menú
+            btn_opcions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    popupMenu = new PopupMenu(view.getContext(), btn_opcions);
+                    popupMenu.getMenuInflater().inflate(R.menu.popup_menuopcions, popupMenu.getMenu());
+
+                    final int position = getAdapterPosition();
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            return itemClick(menuItem, position);
+
+                        }
+                    });
+
+                    popupMenu.show();
+
+                }
             });
 
         }
