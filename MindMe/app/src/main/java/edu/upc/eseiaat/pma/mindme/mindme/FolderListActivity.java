@@ -278,8 +278,8 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                         String[] parts = line.split(";");
                         total_fotos.add(new Picture(
                                 parts[0],
-                                Double.parseDouble(parts[1]),
-                                Double.parseDouble(parts[2])));
+                                Double.parseDouble(parts[1].replace(',', '.')),
+                                Double.parseDouble(parts[2].replace(',', '.'))));
                     }
                 }
                 fis.close();

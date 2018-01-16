@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -108,7 +109,9 @@ public class FolderListActivityAdapter extends RecyclerView.Adapter<RecyclerView
             carpetes_originals = (ArrayList<Carpeta>) results.values;
             notifyDataSetChanged();
         }
-    }public void onItemMove(final int initialPosition, final int finalPosition) {
+    }
+
+    public void onItemMove(final int initialPosition, final int finalPosition) {
 
         if (initialPosition < carpetes_originals.size() && finalPosition < carpetes_originals.size()) {
 
@@ -149,9 +152,7 @@ public class FolderListActivityAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
 
-    public Carpeta getItem(int i) {
-        return carpetes_originals.get(i);
-    }
+    public Carpeta getItem(int i) { return carpetes_originals.get(i); }
 
     @Override
     public int getItemCount (){
@@ -176,7 +177,10 @@ public class FolderListActivityAdapter extends RecyclerView.Adapter<RecyclerView
             Carpeta mElement = carpetes_originals.get(i);
             final int position = i;
 
-            holder.image.setImageDrawable(mElement.getIcona());
+            holder.image.setImageDrawable(
+                    ContextCompat.getDrawable(
+                            getContext(),
+                            Integer.parseInt(String.valueOf(mElement.getRuta_drawable()))));
             holder.nom_carpeta.setText(mElement.getNom_carpeta());
             holder.btn_opcions.setOnClickListener(new View.OnClickListener() {
                 @Override

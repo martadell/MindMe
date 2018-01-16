@@ -107,8 +107,8 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                     String[] parts = line.split(";");
                     llista_fotos.add(new Picture(
                             parts[0],
-                            Double.parseDouble(parts[1]),
-                            Double.parseDouble(parts[2])));
+                            Double.parseDouble(parts[1].replace(',', '.')),
+                            Double.parseDouble(parts[2].replace(',', '.'))));
                 }
             }
             fis.close();
@@ -203,6 +203,9 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             case R.id.btn_switch:
                 simpleViewSwitcher.showNext();
                 if (actLay.equals("galeria")){
+                    for (int i = 0; i<llista_fotos.size(); i++){
+                        addMarker(llista_fotos.get(i));
+                    }
                     btn_switch.setIcon(R.drawable.galeria);
                     actLay = "mapa";
                 }
@@ -214,12 +217,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 return true;
             case android.R.id.home:
                 onBackPressed();
-                Intent return_carpeta = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("llista fotos", llista_fotos);
-                return_carpeta.putExtras(bundle);
-                return_carpeta.putExtra("nc", nom_carpeta);
-                setResult(1, return_carpeta);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -228,10 +225,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        for (int i = 0; i<llista_fotos.size(); i++){
-            addMarker(llista_fotos.get(i));
-        }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.3818, 2.1685), 8.0f));
 
