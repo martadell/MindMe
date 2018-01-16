@@ -1,12 +1,5 @@
 package edu.upc.eseiaat.pma.mindme.mindme;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-
-import java.net.URI;
-
 /**
  * Created by berta.canes on 11/12/2017.
  */

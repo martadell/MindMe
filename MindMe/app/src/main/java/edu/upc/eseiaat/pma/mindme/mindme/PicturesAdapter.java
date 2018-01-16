@@ -1,10 +1,7 @@
 package edu.upc.eseiaat.pma.mindme.mindme;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -124,7 +124,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     protected void onStop() {
         super.onStop();
         writePictureList();
-        //Toast.makeText(this, FILENAME, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -314,9 +313,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         if (!folder.exists()) {
             Toast.makeText(this, "S'ha creat la carpeta", Toast.LENGTH_SHORT).show();
             folder.mkdir();
-        }
-        else {
-            //Toast.makeText(this, folder.toString() , Toast.LENGTH_SHORT).show();
         }
         return folder;
     }

@@ -3,7 +3,6 @@ package edu.upc.eseiaat.pma.mindme.mindme;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
