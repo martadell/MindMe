@@ -4,17 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -34,12 +34,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FolderListActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class FolderListActivity extends AppCompatActivity implements OnMapReadyCallback{
 
+    private RecyclerView r_v;
+    private FolderListActivityAdapter adapter;
     private ArrayList<Carpeta> llista_carpetes;
     private ArrayList<Picture> total_fotos;
-    private FolderListActivityAdapter adapter;
-    private ListView l_c;
     private SearchView searchView;
     private SearchView mapa;
     private GoogleMap mMap;
@@ -116,21 +116,32 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        l_c = (ListView) findViewById(R.id.list_folders);
+
         btn_add =(ImageButton) findViewById(R.id.btn_afegircarpeta);
 
-        adapter = new FolderListActivityAdapter(this, R.layout.activity_folder_list, llista_carpetes);
-        l_c.setAdapter(adapter);
+        inicialitzarRecyclerView();
+    }
 
-        l_c.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void inicialitzarRecyclerView() {
+        //fem servir recyclerview en comptes de listveiew perquè permetrà fer el drag&drop
+        //el problema és que no té onitemclicklistener i ho farem al adapter
+        r_v = findViewById(R.id.list_folders);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        r_v.setLayoutManager(mLayoutManager);
+
+        DynamicEventsHelper.DynamicEventsCallback callback = new DynamicEventsHelper.DynamicEventsCallback() {
             @Override
-            public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
-                Intent accedir_carpeta = new Intent(FolderListActivity.this, FolderActivity.class);
-                accedir_carpeta.putExtra("nc", llista_carpetes.get(pos).getNom_carpeta());
-                accedir_carpeta.putExtra("rd", llista_carpetes.get(pos).getRuta_drawable());
-                startActivity(accedir_carpeta);
+            public void onItemMove(int initialPosition, int finalPosition) {
+                adapter.onItemMove(initialPosition, finalPosition);
             }
-        });
+        };
+        ItemTouchHelper androidItemTouchHelper = new ItemTouchHelper(new DynamicEventsHelper(callback));
+        androidItemTouchHelper.attachToRecyclerView(r_v);
+
+        adapter = new FolderListActivityAdapter(this, llista_carpetes, this, androidItemTouchHelper);
+        r_v.setAdapter(adapter);
+
     }
 
     public void btn_afegir (View view){
@@ -308,6 +319,5 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         startActivity(bigImage);
     }
 
-    //TODO: - DragList V18
     //TODO: - Icona a la actionbar (nomes si sobra temps)
 }

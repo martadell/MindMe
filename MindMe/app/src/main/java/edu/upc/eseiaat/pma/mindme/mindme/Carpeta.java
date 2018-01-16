@@ -1,16 +1,16 @@
 package edu.upc.eseiaat.pma.mindme.mindme;
 
-import android.graphics.Bitmap;
+
 import android.graphics.drawable.Drawable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Carpeta implements Serializable {
 
     private String nom_carpeta;
     private Drawable icona;
     private int ruta_drawable;
+    private int posicio;
 
     public Carpeta (String nom_carpeta, Drawable icona, int ruta_drawable){
         this.nom_carpeta = nom_carpeta;
@@ -37,4 +37,11 @@ public class Carpeta implements Serializable {
     }
 
     public void setIcona(Drawable icona) { this.icona = icona; }
+
+    public int getPosicio() {
+        return posicio;
+    }
+
+    public void setPosicio(int posicio) {
+        this.posicio = posicio; }
 }
