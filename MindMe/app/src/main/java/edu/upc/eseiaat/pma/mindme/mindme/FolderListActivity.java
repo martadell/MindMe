@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,7 +26,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -318,6 +316,4 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
         bigImage.putExtra("picture", foto);
         startActivity(bigImage);
     }
-
-    //TODO: - Icona a la actionbar (nomes si sobra temps)
 }

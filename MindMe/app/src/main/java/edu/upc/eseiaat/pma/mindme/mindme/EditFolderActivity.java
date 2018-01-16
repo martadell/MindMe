@@ -55,14 +55,7 @@ public class EditFolderActivity extends AppCompatActivity {
             llistacat.add(new Categories(noms_cat[i], drawable));
         }
 
-        /*Collections.sort(llistacat, new Comparator<Categories>() {
-            public int compare(Categories obj1, Categories obj2) {
-                return obj1.getNom().compareTo(obj2.getNom());
-            }
-        });*/
-
         //CREEM L'ADAPTADOR
-
         Spinner llistacategories = (Spinner) findViewById(R.id.llistacategories);
 
         adapter = new CategoriesAdapter(this, llistacat);
@@ -82,8 +75,6 @@ public class EditFolderActivity extends AppCompatActivity {
                 });
 
         //APLIQUEM INTENT I AGAFEM INFORMACIÓ
-
-
         nom_carpeta.setText(nom);
 
          for (int i=0; i<llistacat.size(); i++){
