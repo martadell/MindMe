@@ -26,11 +26,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static java.security.AccessController.getContext;
 
 public class FolderListActivity extends AppCompatActivity implements OnMapReadyCallback{
 
@@ -156,6 +160,8 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                     String nom = intent.getStringExtra("nom carpeta");
                     int ruta_drawable = intent.getIntExtra("ruta drawable", 0);
                     int posicio_carpeta = intent.getIntExtra("posicio carpeta", -1);
+                    String nom_ant = intent.getStringExtra("nom_antic");
+                    int icona_antic = intent.getIntExtra("icona_antic", 0);
 
                     Drawable d = ContextCompat.getDrawable(this, ruta_drawable);
 
@@ -164,6 +170,16 @@ public class FolderListActivity extends AppCompatActivity implements OnMapReadyC
                             llista_carpetes.get(posicio_carpeta).setIcona(d);
                             llista_carpetes.get(posicio_carpeta).setNom_carpeta(nom);
                             llista_carpetes.get(posicio_carpeta).setRuta_drawable(ruta_drawable);
+                            String nom_fitxer_ant = String.format("picture_list_%s_%d.txt",
+                                    nom_ant,
+                                    icona_antic);
+                            String nom_fitxer_nou = String.format("picture_list_%s_%d.txt",
+                                    nom,
+                                    ruta_drawable);
+                            File oldfile = this.getFileStreamPath(nom_fitxer_ant);
+                            File newfile = this.getFileStreamPath(nom_fitxer_nou);
+                            oldfile.renameTo(newfile);
+                            this.deleteFile(nom_fitxer_ant);
                         } else {
                             llista_carpetes.add(new Carpeta(nom, d, ruta_drawable));
                         }

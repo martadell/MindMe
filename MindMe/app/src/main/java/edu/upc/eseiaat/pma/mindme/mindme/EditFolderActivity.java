@@ -21,6 +21,8 @@ public class EditFolderActivity extends AppCompatActivity {
     private int p;
     private EditText nom_carpeta;
     private int posicio_carpeta;
+    private int ic_antic;
+    private String nom_antic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class EditFolderActivity extends AppCompatActivity {
         String nom = intent.getStringExtra("nom carpeta");
         int codi_ruta = intent.getIntExtra("id drawable", 0);
         posicio_carpeta = intent.getIntExtra("posicio carpeta", -1);
+        nom_antic = nom;
+        ic_antic = codi_ruta;
 
         //OMPLIM LA LLISTA DE CATEGORIES
 
@@ -105,6 +109,8 @@ public class EditFolderActivity extends AppCompatActivity {
         afegeix.putExtra("nom carpeta", nc);
         afegeix.putExtra("posicio carpeta", posicio_carpeta);
         afegeix.putExtra("ruta drawable", imgs[p]);
+        afegeix.putExtra("nom_antic", nom_antic);
+        afegeix.putExtra("icona_antic", ic_antic);
         setResult(RESULT_OK, afegeix);
         finish();
     }
