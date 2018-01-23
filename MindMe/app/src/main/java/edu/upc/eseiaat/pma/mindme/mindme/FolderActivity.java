@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -40,11 +44,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class FolderActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private static final int PERMIS_CAMERA = 0;
+    private static final int PERMIS_LLEGIR_I_ESCRIURE = 1;
 
     private GoogleMap mMap;
     private ViewSwitcher simpleViewSwitcher;
@@ -130,7 +138,15 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder);
 
-        //AFEGIR FLETXA ENRERE ACTIONBAR
+        // Demanem permisos només començar, així ja està fet...
+        ActivityCompat.requestPermissions(this, new String[] {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+        }, PERMIS_LLEGIR_I_ESCRIURE);
+
+        // AFEGIR FLETXA ENRERE ACTIONBAR
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -264,7 +280,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
             getLocation();
             addPicture();
             addMarker(llista_fotos.get(llista_fotos.size()-1));
-
             adapter.notifyDataSetChanged();
         }
     }
@@ -274,20 +289,9 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void getLocation() {
-
-        if (ActivityCompat.checkSelfPermission(FolderActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.checkSelfPermission
-                    (FolderActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                ActivityCompat.requestPermissions
-                        (FolderActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                REQUEST_LOCATION);
-
-            } } else {
-
+        int result = ActivityCompat.checkSelfPermission(FolderActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (result == PackageManager.PERMISSION_GRANTED) {
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
             if (location != null){
                 lat = location.getLatitude();
                 lon = location.getLongitude();
@@ -295,7 +299,6 @@ public class FolderActivity extends AppCompatActivity implements OnMapReadyCallb
                 Toast.makeText(this, "Unable to find location", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     //Obtenir el nom de l'arxiu al qual es guardarà la imatge
